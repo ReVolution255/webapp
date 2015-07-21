@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="PostgreDB" targetRuntime="MyBatis3">
+        <commentGenerator>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="org.postgresql.Driver"
+                        connectionURL="jdbc:postgresql://localhost:5432/postgres"
+                        userId="respoint"
+                        password="respoint">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="main.java" targetProject="src">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="main.java"
+                         targetProject="src">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="main.java"
+                             targetProject="src" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <table tableName="users" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="groups" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="roles" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="permissions" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="user_groups" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="role_permissions" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="user_roles" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+
+    </context>
+</generatorConfiguration>
