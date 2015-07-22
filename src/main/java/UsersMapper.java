@@ -1,8 +1,5 @@
-package main.java;
 
 import java.util.List;
-import main.java.Users;
-import main.java.UsersExample;
 import org.apache.ibatis.annotations.Param;
 
 public interface UsersMapper {

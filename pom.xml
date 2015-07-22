@@ -4,9 +4,10 @@
                     http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.resolutionpoint</groupId>
-    <artifactId>webapp-0.0.1.jar</artifactId>
+    <artifactId>webapp</artifactId>
     <version>0.0.1</version>
     <name>Web Application</name>
+    <packaging>war</packaging>
     <dependencies>
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -30,14 +31,19 @@
     <build>
         <plugins>
             <plugin>
-            <groupId>org.apache.tomcat.maven</groupId>
-            <artifactId>tomcat8-maven-plugin</artifactId>
-            <version>2.2</version>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
                 <configuration>
                     <server>tomcat8</server>
                     <url>http://localhost:8080/manager</url>
                     <path>/webapp</path>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
             </plugin>
         </plugins>
     </build>
