@@ -18,18 +18,18 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="main.java" targetProject="src">
+        <javaModelGenerator targetPackage="main.java" targetProject="MAVEN">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="main.java"
-                         targetProject="src">
+                         targetProject="MAVEN">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
         <javaClientGenerator targetPackage="main.java"
-                             targetProject="src" type="XMLMAPPER">
+                             targetProject="MAVEN" type="XMLMAPPER">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 

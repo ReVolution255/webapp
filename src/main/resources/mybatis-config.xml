@@ -17,12 +17,12 @@
         </environment>
     </environments>
     <mappers>
-        <mapper class="GroupsMapper"/>
-        <mapper class="PermissionsMapper"/>
-        <mapper class="RolePermissionsMapper"/>
-        <mapper class="RolesMapper"/>
-        <mapper class="UserGroupsMapper"/>
-        <mapper class="UserRolesMapper"/>
-        <mapper class="UsersMapper"/>
+        <mapper class="main.java.GroupsMapper"/>
+        <mapper class="main.java.PermissionsMapper"/>
+        <mapper class="main.java.RolePermissionsMapper"/>
+        <mapper class="main.java.RolesMapper"/>
+        <mapper class="main.java.UserGroupsMapper"/>
+        <mapper class="main.java.UserRolesMapper"/>
+        <mapper class="main.java.UsersMapper"/>
     </mappers>
 </configuration>

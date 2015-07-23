@@ -1,3 +1,4 @@
+package main.java;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -13,7 +14,6 @@ import javax.servlet.http.*;
 public class AppMainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //super.doGet(req, resp);
         List<Users> users = null;
         SqlSessionFactory sqlSessionFactory;
         UsersMapper usersMapper;
@@ -21,7 +21,7 @@ public class AppMainServlet extends HttpServlet {
         try {
             reader = Resources.getResourceAsReader("mybatis-config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-            usersMapper = sqlSessionFactory.openSession().getMapper(UsersMapper.class);
+            usersMapper = sqlSessionFactory.openSession().getMapper(main.java.UsersMapper.class);
             users = usersMapper.selectByExample(null);
         } catch (IOException e) {
             e.printStackTrace();

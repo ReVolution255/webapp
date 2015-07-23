@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>Application</servlet-name>
-        <servlet-class>AppMainServlet</servlet-class>
+        <servlet-class>main.java.AppMainServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
