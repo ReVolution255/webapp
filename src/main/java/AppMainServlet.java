@@ -21,33 +21,12 @@ public class AppMainServlet extends HttpServlet {
         try {
             reader = Resources.getResourceAsReader("mybatis-config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-            usersMapper = sqlSessionFactory.openSession().getMapper(main.java.UsersMapper.class);
+            usersMapper = sqlSessionFactory.openSession().getMapper(UsersMapper.class);
             users = usersMapper.selectByExample(null);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        resp.setContentType("text/html;charset=utf-8");
-        PrintWriter pw = resp.getWriter();
-        pw.println("<html>");
-        pw.println("<head>");
-        pw.println("<title>Web Application</title>");
-        pw.println("</head>");
-        pw.println("<body>");
-        pw.println("<table border=1>");
-        try {
-            if (users != null) {
-                for (Users user : users) {
-                    pw.println("<tr>");
-                    pw.println("<td>" + user.getId() + "</td>");
-                    pw.println("<td>" + user.getName() + "</td>");
-                    pw.println("</tr>");
-                }
-            }
-        } catch (Exception e) {
-            throw new ServletException(e);
-        }
-        pw.println("</table>");
-        pw.println("</body>");
-        pw.println("</html>");
+        req.setAttribute("usersList", users);
+        req.getRequestDispatcher("users.jsp").forward(req, resp);
     }
 }
