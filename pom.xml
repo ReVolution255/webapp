@@ -29,6 +29,15 @@
         <dao.target.dir>src/main/java</dao.target.dir>
     </properties>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                     <groupId>org.apache.tomcat.maven</groupId>
@@ -36,8 +45,8 @@
                     <version>2.2</version>
                 <configuration>
                     <server>tomcat8</server>
-                    <url>http://localhost:8080/manager</url>
-                    <path>/webapp</path>
+                    <url>http://localhost:8080/manager/text</url>
+                    <path>/appmain</path>
                 </configuration>
             </plugin>
             <plugin>

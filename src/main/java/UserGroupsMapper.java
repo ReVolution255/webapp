@@ -1,8 +1,5 @@
-package main.java;
 
 import java.util.List;
-import main.java.UserGroups;
-import main.java.UserGroupsExample;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserGroupsMapper {

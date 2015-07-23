@@ -1,8 +1,5 @@
-package main.java;
 
 import java.util.List;
-import main.java.Permissions;
-import main.java.PermissionsExample;
 import org.apache.ibatis.annotations.Param;
 
 public interface PermissionsMapper {

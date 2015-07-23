@@ -1,8 +1,4 @@
-package main.java;
-
 import java.util.List;
-import main.java.Roles;
-import main.java.RolesExample;
 import org.apache.ibatis.annotations.Param;
 
 public interface RolesMapper {

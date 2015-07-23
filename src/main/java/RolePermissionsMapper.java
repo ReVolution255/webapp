@@ -1,8 +1,5 @@
-package main.java;
 
 import java.util.List;
-import main.java.RolePermissions;
-import main.java.RolePermissionsExample;
 import org.apache.ibatis.annotations.Param;
 
 public interface RolePermissionsMapper {
