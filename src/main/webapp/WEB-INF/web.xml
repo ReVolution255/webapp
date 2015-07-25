@@ -11,7 +11,7 @@
 
     <servlet>
         <servlet-name>Application</servlet-name>
-        <servlet-class>main.java.AppMainServlet</servlet-class>
+        <servlet-class>main.java.UsersPage</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -19,4 +19,43 @@
         <url-pattern>/appmain</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>EditUser</servlet-name>
+        <servlet-class>main.java.EditUser</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EditUser</servlet-name>
+        <url-pattern>/edit-user</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteUser</servlet-name>
+        <servlet-class>main.java.DeleteUser</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DeleteUser</servlet-name>
+        <url-pattern>/delete-user</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddUser</servlet-name>
+        <servlet-class>main.java.AddUser</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddUser</servlet-name>
+        <url-pattern>/add-user</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AboutUser</servlet-name>
+        <servlet-class>main.java.AboutUser</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AboutUser</servlet-name>
+        <url-pattern>/about-user</url-pattern>
+    </servlet-mapping>
 </web-app>

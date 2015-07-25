@@ -3,18 +3,18 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Reader;
-import java.util.List;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
 
-public class AppMainServlet extends HttpServlet {
+public class DeleteUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Users> users = null;
+        long userId = Long.parseLong(req.getParameter("delete"));
         SqlSessionFactory sqlSessionFactory;
         UsersMapper usersMapper;
         Reader reader;
@@ -22,11 +22,10 @@ public class AppMainServlet extends HttpServlet {
             reader = Resources.getResourceAsReader("mybatis-config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
             usersMapper = sqlSessionFactory.openSession().getMapper(UsersMapper.class);
-            users = usersMapper.selectByExample(null);
+            usersMapper.deleteByPrimaryKey(userId);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        req.setAttribute("usersList", users);
-        req.getRequestDispatcher("users.jsp").forward(req, resp);
+        resp.sendRedirect("/appmain/appmain");
     }
 }
