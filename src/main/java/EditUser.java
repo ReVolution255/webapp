@@ -1,5 +1,6 @@
 package main.java;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
@@ -20,15 +21,20 @@ public class EditUser extends HttpServlet {
         editedUser.setId(newId);
         editedUser.setName(newName);
         SqlSessionFactory sqlSessionFactory;
+        SqlSession session = null;
         UsersMapper usersMapper;
         Reader reader;
         try {
             reader = Resources.getResourceAsReader("mybatis-config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-            usersMapper = sqlSessionFactory.openSession().getMapper(UsersMapper.class);
+            session = sqlSessionFactory.openSession();
+            usersMapper = session.getMapper(UsersMapper.class);
             usersMapper.updateByPrimaryKey(editedUser);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            session.commit();
+            session.close();
         }
         resp.sendRedirect("/appmain/appmain");
     }

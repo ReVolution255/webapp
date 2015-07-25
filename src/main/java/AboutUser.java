@@ -2,6 +2,7 @@ package main.java;
 import main.java.Users;
 import main.java.UsersMapper;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
@@ -20,14 +21,19 @@ public class AboutUser extends HttpServlet {
         Users user = null;
         SqlSessionFactory sqlSessionFactory;
         UsersMapper usersMapper;
+        SqlSession session = null;
         Reader reader;
         try {
             reader = Resources.getResourceAsReader("mybatis-config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-            usersMapper = sqlSessionFactory.openSession().getMapper(UsersMapper.class);
+            session = sqlSessionFactory.openSession();
+            usersMapper = session.getMapper(UsersMapper.class);
             user = usersMapper.selectByPrimaryKey(id);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            session.commit();
+            session.close();
         }
         req.setAttribute("user", user);
         req.getRequestDispatcher("/about-user.jsp").forward(req, resp);
