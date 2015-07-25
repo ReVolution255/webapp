@@ -26,7 +26,7 @@ public class UsersPage extends HttpServlet {
                 usersMapper = session.getMapper(UsersMapper.class);
                 users = usersMapper.selectByExample(null);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getCause() + e.getMessage());
             } finally {
             session.close();
         }

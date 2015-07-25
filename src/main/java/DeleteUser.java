@@ -25,12 +25,9 @@ public class DeleteUser extends HttpServlet {
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
             session = sqlSessionFactory.openSession();
             usersMapper = session.getMapper(UsersMapper.class);
-            int count = usersMapper.countByExample(null);
             int temp = usersMapper.deleteByPrimaryKey(userId);
-            int count2 = usersMapper.countByExample(null);
-            System.out.println("Deleted: " +userId + " Rows affected: " + temp + "Before id's: " +count + " After: " +count2);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e.getCause() + e.getMessage());
         } finally {
             session.commit();
             session.close();

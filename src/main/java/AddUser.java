@@ -30,8 +30,8 @@ public class AddUser extends HttpServlet {
             session = sqlSessionFactory.openSession();
             usersMapper = session.getMapper(UsersMapper.class);
             usersMapper.insert(newUser);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e.getCause() + e.getMessage());
         } finally {
             session.commit();
             session.close();
