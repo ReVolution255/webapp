@@ -12,9 +12,9 @@ public class AddUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Users newUser = new Users();
-        long newId = Long.parseLong(req.getParameter("id"));
+        //long newId = Long.parseLong(req.getParameter("id"));
         String newName = req.getParameter("name");
-        newUser.setId(newId);
+        //newUser.setId(newId);
         newUser.setName(newName);
         UsersMapper usersMapper;
         SqlSession session = main.java.SessionManager.getSession();
