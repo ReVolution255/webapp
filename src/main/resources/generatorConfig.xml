@@ -10,8 +10,8 @@
 
         <jdbcConnection driverClass="org.postgresql.Driver"
                         connectionURL="jdbc:postgresql://localhost:5432/postgres"
-                        userId="respoint"
-                        password="respoint">
+                        userId="postgres"
+                        password="postgres">
         </jdbcConnection>
 
         <javaTypeResolver >
