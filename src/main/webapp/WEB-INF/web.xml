@@ -19,6 +19,11 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>Application</servlet-name>
+        <url-pattern>/index*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>EditUser</servlet-name>
         <servlet-class>main.java.EditUser</servlet-class>

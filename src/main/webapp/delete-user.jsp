@@ -6,7 +6,8 @@
 </head>
 <body>
 <form name="deleteform" id="deleteform" action="delete-user">
-  <input type="text" name="id" placeholder="User id">
+    <label for="idfield">User id:</label>
+    <input type="text" id="idfield" name="delete" placeholder="User id">
   <button form="deleteform" type="submit">Delete</button>
 </form>
 </body>

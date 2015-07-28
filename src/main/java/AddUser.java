@@ -11,17 +11,21 @@ import java.io.IOException;
 public class AddUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //Get data
         Users newUser = new Users();
-        //long newId = Long.parseLong(req.getParameter("id"));
         String newName = req.getParameter("name");
-        //newUser.setId(newId);
+
+        //Handle data
         newUser.setName(newName);
-        UsersMapper usersMapper;
         SqlSession session = main.java.SessionManager.getSession();
-        usersMapper = session.getMapper(UsersMapper.class);
+        UsersMapper usersMapper = session.getMapper(UsersMapper.class);
         usersMapper.insert(newUser);
+
+        //Close session
         session.commit();
         session.close();
+
+        //Send data
         resp.sendRedirect("/appmain/");
     }
 }

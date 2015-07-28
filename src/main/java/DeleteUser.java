@@ -11,13 +11,19 @@ import java.io.IOException;
 public class DeleteUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //Get data
         long userId = Long.parseLong(req.getParameter("delete"));
-        UsersMapper usersMapper;
+
+        //Handle data
         SqlSession session = main.java.SessionManager.getSession();
-        usersMapper = session.getMapper(UsersMapper.class);
+        UsersMapper usersMapper = session.getMapper(UsersMapper.class);
         usersMapper.deleteByPrimaryKey(userId);
+
+        //Close session
         session.commit();
         session.close();
+
+        //Send data
         resp.sendRedirect("/appmain/");
     }
 }

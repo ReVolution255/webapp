@@ -6,8 +6,8 @@
 </head>
 <body>
 <form name="createform" id="createform" action="add-user">
-  <input type="text" name="id" placeholder="User id">
-  <input type="text" name="name" placeholder="User name">
+    <label for="namefield">User name:</label>
+  <input type="text" id="namefield" name="name" placeholder="User name">
   <button form="createform" type="submit">Create</button>
 </form>
 </body>

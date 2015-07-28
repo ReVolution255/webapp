@@ -9,13 +9,17 @@ import javax.servlet.http.*;
 public class UsersPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Users> users = null;
+        //Handle data
         SqlSession session = main.java.SessionManager.getSession();
         UsersMapper usersMapper;
         usersMapper = session.getMapper(UsersMapper.class);
-        users = usersMapper.selectByExample(null);
+        List<Users> users = usersMapper.selectByExample(null);
+
+        //Close session
         session.commit();
         session.close();
+
+        //Send data
         req.setAttribute("usersList", users);
         req.getRequestDispatcher("users.jsp").forward(req, resp);
     }

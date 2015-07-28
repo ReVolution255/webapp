@@ -6,8 +6,10 @@
 </head>
 <body>
 <form name="editform" id="editform" action="edit-user">
-  <input type="text" name="id" value="<%= request.getParameter("edit")%>" readonly>
-  <input type="text" name="name" placeholder="New name">
+    <label for="idfield">User id (read only):</label>
+  <input type="text" id="idfield" name="id" value="<%= request.getParameter("edit")%>" readonly>
+    <label for="namefield">User name:</label>
+  <input type="text" id="namefield" name="name" placeholder="New name">
   <button form="editform" type="submit">Accept</button>
 </form>
 </body>

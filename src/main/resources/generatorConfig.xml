@@ -35,19 +35,19 @@
 
         <table tableName="users" >
             <property name="useActualColumnNames" value="true"/>
-            <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+            <generatedKey column="id" sqlStatement="SELECT lastval()" identity="true" />
         </table>
         <table tableName="groups" >
             <property name="useActualColumnNames" value="true"/>
-            <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+            <generatedKey column="id" sqlStatement="SELECT lastval()" identity="true" />
         </table>
         <table tableName="roles" >
             <property name="useActualColumnNames" value="true"/>
-            <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+            <generatedKey column="id" sqlStatement="SELECT lastval()" identity="true" />
         </table>
         <table tableName="permissions" >
             <property name="useActualColumnNames" value="true"/>
-            <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+            <generatedKey column="id" sqlStatement="SELECT lastval()" identity="true" />
         </table>
         <table tableName="user_groups" >
             <property name="useActualColumnNames" value="true"/>
