@@ -61,6 +61,5 @@
             <property name="useActualColumnNames" value="true"/>
             <generatedKey column="id" sqlStatement="SELECT lastval()" identity="true" />
         </table>
-
     </context>
 </generatorConfiguration>
