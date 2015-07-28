@@ -12,7 +12,7 @@ function deleteUser(){
     req = createReq();
     req.open("GET", url, true);
     req.send();
-    req.onreadystatechange = updateTable;
+    req.onreadystatechange = checkState;
     elem.value = "";
 }
 
@@ -23,7 +23,7 @@ function createUser(){
     req = createReq();
     req.open("GET", url, true);
     req.send();
-    req.onreadystatechange = updateTable;
+    req.onreadystatechange = checkState;
     elem.value = "";
 }
 
@@ -36,7 +36,7 @@ function editUser(){
     req = createReq();
     req.open("GET", url, true);
     req.send();
-    req.onreadystatechange = updateTable;
+    req.onreadystatechange = checkState;
     elem1.value = "";
     elem2.value = "";
 }
@@ -50,6 +50,14 @@ function createReq(){
     } else if (window.ActiveXObject) {
         isIE = true;
         return new ActiveXObject("Microsoft.XMLHTTP");
+    }
+}
+
+function checkState() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            updateTable();
+        }
     }
 }
 

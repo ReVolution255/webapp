@@ -6,7 +6,7 @@
     <title>Users</title>
 </head>
 <script src="<c:out value="${pageContext.request.contextPath}" />/scripts/common.js"></script>
-<script src="<c:out value="${pageContext.request.contextPath}" />/scripts/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <body onload="init()">
     <label for="namefield_createform">User name:</label>
     <input type="text" id="namefield_createform" name="name" placeholder="User name">
