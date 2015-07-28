@@ -51,12 +51,15 @@
         </table>
         <table tableName="user_groups" >
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="SELECT lastval()" identity="true" />
         </table>
         <table tableName="role_permissions" >
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="SELECT lastval()" identity="true" />
         </table>
         <table tableName="user_roles" >
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="SELECT lastval()" identity="true" />
         </table>
 
     </context>
