@@ -63,8 +63,35 @@ function checkState() {
 
 function updateTable(){
     var users = $.parseJSON(req.responseText);
-    var table = document.getElementById("users");
+    var table = document.getElementById('users');
+    if (table != null && table != undefined)
+    {
     table.innerHTML = "";
+    }
+    else {
+        var buttons = '<label for="idfield_deleteform">User id:</label>';
+        buttons += '<input type="text" id="idfield_deleteform" name="delete" placeholder="User id">';
+        buttons += '<input onclick="deleteUser()" type="button" value="Delete">';
+        buttons += '<br>';
+        buttons += '<label for="idfield_editform">User id:</label>';
+        buttons += '<input type="text" id="idfield_editform" name="id" placeholder="User id">';
+        buttons += '<label for="namefield_editform">User name:</label>';
+        buttons += '<input type="text" id="namefield_editform" name="name" placeholder="New name">';
+        buttons += '<input onclick="editUser()" type="button" value="Accept">';
+        buttons += '<br>';
+
+        var temp = document.createElement('div');
+        temp.setAttribute('id', 'buttons');
+        document.appendChild(temp);
+        document.getElementById('buttons').innerHTML = buttons;
+
+        table = document.createElement('table');
+        table.setAttribute('border', '1');
+        table.setAttribute('id', 'users');
+
+        document.body.appendChild(table);
+        document.getElementById("nousers").innerHTML = "";
+    }
     $.each(users, function(number, user){
         //Links 'about' page
         var a_id = document.createElement('a');
@@ -89,7 +116,7 @@ function updateTable(){
 
         var td_delete = document.createElement('td');
         temp_form = document.createElement('form');
-        temp_form.setAttribute('action', 'delete-user.jsp');
+        temp_form.setAttribute('action', 'delete-user');
         temp_button = document.createElement('button');
         temp_button.setAttribute('name', 'delete');
         temp_button.setAttribute('type', 'submit');

@@ -14,6 +14,7 @@
 <br>
         <c:choose>
             <c:when test="${usersList.size() > 0}">
+                <div id="buttons">
                     <label for="idfield_deleteform">User id:</label>
                     <input type="text" id="idfield_deleteform" name="delete" placeholder="User id">
                     <input onclick="deleteUser()" type="button" value="Delete">
@@ -24,6 +25,7 @@
                     <input type="text" id="namefield_editform" name="name" placeholder="New name">
                     <input onclick="editUser()" type="button" value="Accept">
                 <br>
+                </div>
                 <table id="users" border=1>
             <c:forEach var="user" items="${usersList}">
                 <tr>
@@ -48,7 +50,7 @@
                 </table>
             </c:when>
             <c:otherwise>
-                <b>No users in database.</b>
+                <div id="nousers"><b>No users in database.</b></div>
             </c:otherwise>
         </c:choose>
 </body>
