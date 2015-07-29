@@ -25,6 +25,9 @@ td, th {
     margin-bottom: 30px;
     text-align: center;
 }
+#no_users{
+    text-align: center;
+}
 
 input[type=button] {
     -moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
