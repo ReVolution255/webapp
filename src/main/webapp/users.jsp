@@ -3,9 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="http-equiv" content="Content-type: text/html; charset=UTF-8">
     <title>Users</title>
 </head>
-<script src="<c:out value="${pageContext.request.contextPath}" />/scripts/common.js"></script>
+<script charset="utf-8" src="<c:out value="${pageContext.request.contextPath}" />/scripts/common.js"></script>
 <link rel="stylesheet" href="<c:out value="${pageContext.request.contextPath}" />/css/style.css">
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <body onload="init()">
@@ -20,7 +21,7 @@
                     </div>
                 </div>
                 <div id="users_table">
-                <table id="users" border=1>
+                <table id="users" border="1">
                     <tr>
                         <th>User ID</th>
                         <th>User Name</th>
