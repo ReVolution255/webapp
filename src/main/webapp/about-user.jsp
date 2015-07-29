@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>About User</title>
-    <meta name="http-equiv" content="Content-type: text/html; charset=UTF-8">
+    <meta charset="utf-8">
 </head>
 <link rel="stylesheet" href="<c:out value="${pageContext.request.contextPath}" />/css/style.css">
 <body>

@@ -79,6 +79,7 @@ public class UsersPage extends HttpServlet {
         session.close();
 
         if (dataChanged){
+            resp.setHeader("Content-Type", "text/plain; charset=UTF-8");
             resp.setHeader("Cache-Control", "no-cache");
             resp.getWriter().write(new Gson().toJson(users));
         } else {

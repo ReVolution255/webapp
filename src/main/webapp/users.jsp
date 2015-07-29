@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="http-equiv" content="Content-type: text/html; charset=UTF-8">
+    <meta charset="utf-8">
     <title>Users</title>
 </head>
 <script charset="utf-8" src="<c:out value="${pageContext.request.contextPath}" />/scripts/common.js"></script>
