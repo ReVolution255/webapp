@@ -17,14 +17,10 @@
                 <div id="buttons">
                     <label for="idfield_deleteform">User id:</label>
                     <input type="text" id="idfield_deleteform" name="delete" placeholder="User id">
-                    <input onclick="deleteUser()" type="button" value="Delete">
+                    <input onclick="deleteUser(-1)" type="button" value="Delete">
                 <br>
-                    <label for="idfield_editform">User id:</label>
-                    <input type="text" id="idfield_editform" name="id" placeholder="User id">
-                    <label for="namefield_editform">User name:</label>
-                    <input type="text" id="namefield_editform" name="name" placeholder="New name">
-                    <input onclick="editUser()" type="button" value="Accept">
-                <br>
+                    <div id="edit_form">
+                    </div>
                 </div>
                 <div id="users_table">
                 <table id="users" border=1>
@@ -37,14 +33,10 @@
                         <a href="about-user?id=<c:out value="${user.id}" />"><c:out value="${user.name}" /></a>
                     </td>
                     <td>
-                        <form action="edit-user.jsp">
-                        <button name="edit" type="submit" value="<c:out value="${user.id}" />">Edit</button>
-                        </form>
+                        <input name="edit" type="button" value="Edit" onclick="showEditForm(${user.id})" />
                     </td>
                     <td>
-                        <form action="delete-user">
-                        <button name="delete" type="submit" value="<c:out value="${user.id}" />">Delete</button>
-                        </form>
+                        <input name="delete" type="button" value="Delete" onclick="deleteUser(${user.id})" />
                     </td>
                 </tr>
             </c:forEach>

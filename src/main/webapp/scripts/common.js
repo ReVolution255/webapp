@@ -12,9 +12,15 @@ function init() {
     buttons_div = document.getElementById('buttons');
 }
 
-function deleteUser(){
-    var elem = document.getElementById('idfield_deleteform');
-    var id = elem.value;
+function deleteUser(user_id){
+    var id;
+    var elem;
+    if (user_id == -1) {
+        elem = document.getElementById('idfield_deleteform');
+        id = elem.value;
+    }
+    else
+    id = user_id;
     var url = "?action=delete&delete=" + id;
     req = createReq();
     req.open("GET", url, true);
@@ -34,6 +40,17 @@ function createUser(){
     elem.value = "";
 }
 
+function showEditForm(id){
+    var edit_form = document.getElementById('edit_form');
+    var form = '<label for="idfield_editform">User id:</label>';
+    form += '<input type="text" id="idfield_editform" name="id" placeholder="User id" value="' + id + '" readonly>';
+    form += '<label for="namefield_editform">User name:</label>';
+    form += '<input type="text" id="namefield_editform" name="name" placeholder="New name">';
+    form += '<input onclick="editUser()" type="button" value="Accept">';
+    form += '<br>';
+    edit_form.innerHTML = form;
+}
+
 function editUser(){
     var elem1 = document.getElementById('idfield_editform');
     var id = elem1.value;
@@ -46,6 +63,7 @@ function editUser(){
     req.onreadystatechange = checkState;
     elem1.value = "";
     elem2.value = "";
+    document.getElementById('edit_form').innerHTML = '';
 }
 
 function createReq(){
@@ -82,14 +100,11 @@ function updateTable(){
 
         var buttons = '<label for="idfield_deleteform">User id:</label>';
         buttons += '<input type="text" id="idfield_deleteform" name="delete" placeholder="User id">';
-        buttons += '<input onclick="deleteUser()" type="button" value="Delete">';
+        buttons += '<input onclick="deleteUser(-1)" type="button" value="Delete">';
         buttons += '<br>';
-        buttons += '<label for="idfield_editform">User id:</label>';
-        buttons += '<input type="text" id="idfield_editform" name="id" placeholder="User id">';
-        buttons += '<label for="namefield_editform">User name:</label>';
-        buttons += '<input type="text" id="namefield_editform" name="name" placeholder="New name">';
-        buttons += '<input onclick="editUser()" type="button" value="Accept">';
-        buttons += '<br>';
+        buttons += '<div id="edit_form">';
+        buttons += '</div>';
+
 
         buttons_div.innerHTML = buttons;
 
@@ -117,27 +132,21 @@ function updateTable(){
 
             //Edit button
             var td_edit = document.createElement('td');
-            var temp_form = document.createElement('form');
-            temp_form.setAttribute('action', 'edit-user.jsp');
-            var temp_button = document.createElement('button');
+            var temp_button = document.createElement('input');
             temp_button.setAttribute('name', 'edit');
-            temp_button.setAttribute('type', 'submit');
-            temp_button.setAttribute('value', user.id);
-            temp_button.innerHTML = "Edit";
-            temp_form.appendChild(temp_button);
-            td_edit.appendChild(temp_form);
+            temp_button.setAttribute('type', 'button');
+            temp_button.setAttribute('value', 'Edit');
+            temp_button.setAttribute('onclick', 'showEditForm(' + user.id + ')');
+            td_edit.appendChild(temp_button);
 
             //Delete button
             var td_delete = document.createElement('td');
-            temp_form = document.createElement('form');
-            temp_form.setAttribute('action', 'delete-user');
-            temp_button = document.createElement('button');
+            temp_button = document.createElement('input');
             temp_button.setAttribute('name', 'delete');
-            temp_button.setAttribute('type', 'submit');
-            temp_button.setAttribute('value', user.id);
-            temp_button.innerHTML = "Delete";
-            temp_form.appendChild(temp_button);
-            td_delete.appendChild(temp_form);
+            temp_button.setAttribute('type', 'button');
+            temp_button.setAttribute('value', 'Delete');
+            temp_button.setAttribute('onclick', 'deleteUser(' + user.id + ')');
+            td_delete.appendChild(temp_button);
 
             a_id.appendChild(document.createTextNode(user.id));
             a_name.appendChild(document.createTextNode(user.name));
