@@ -36,8 +36,10 @@ function showEditForm(id){
     var edit_form = document.getElementById('edit_form');
     var form = '<label for="idfield_editform">User id:</label>';
     form += '<input type="text" id="idfield_editform" name="id" placeholder="User id" value="' + id + '" readonly>';
+    form += '<br>';
     form += '<label for="namefield_editform">User name:</label>';
     form += '<input type="text" id="namefield_editform" name="name" placeholder="New name">';
+    form += '<br>';
     form += '<input onclick="editUser()" type="button" value="Accept">';
     edit_form.innerHTML = form;
 }
@@ -57,7 +59,7 @@ function hideEditForm(){
 
 function hideAddForm(){
     document.getElementById('add_form').innerHTML = '';
-    var button = '<input type="button" value="Add user" onclick="showAddForm()">';
+    var button = '<input id="add_button" type="button" value="Add user" onclick="showAddForm()">';
     document.getElementById('add_form').innerHTML = button;
 }
 
@@ -123,6 +125,23 @@ function updateTable(){
         table.setAttribute('border', '1');
         table.setAttribute('id', 'users');
         users_table_div.appendChild(table);
+
+        //Head
+        var tr = document.createElement('tr');
+        var th;
+        th = document.createElement('th');
+        th.appendChild(document.createTextNode('User ID'));
+        tr.appendChild(th);
+        th = document.createElement('th');
+        th.appendChild(document.createTextNode('User Name'));
+        tr.appendChild(th);
+        th = document.createElement('th');
+        th.appendChild(document.createTextNode('Edit User'));
+        tr.appendChild(th);
+        th = document.createElement('th');
+        th.appendChild(document.createTextNode('Delete User'));
+        tr.appendChild(th);
+        table.appendChild(tr);
 
         $.each(users, function (number, user) {
             //Links 'about' page

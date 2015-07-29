@@ -6,6 +6,7 @@
     <title>Users</title>
 </head>
 <script src="<c:out value="${pageContext.request.contextPath}" />/scripts/common.js"></script>
+<link rel="stylesheet" href="<c:out value="${pageContext.request.contextPath}" />/css/style.css">
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <body onload="init()">
 
@@ -13,13 +14,19 @@
             <c:when test="${usersList.size() > 0}">
                 <div id="buttons">
                     <div id="add_form">
-                    <input type="button" value="Add user" onclick="showAddForm()">
+                    <input id="add_button" type="button" value="Add user" onclick="showAddForm()">
                     </div>
                     <div id="edit_form">
                     </div>
                 </div>
                 <div id="users_table">
                 <table id="users" border=1>
+                    <tr>
+                        <th>User ID</th>
+                        <th>User Name</th>
+                        <th>Edit User</th>
+                        <th>Delete User</th>
+                    </tr>
             <c:forEach var="user" items="${usersList}">
                 <tr>
                     <td>
