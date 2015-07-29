@@ -13,20 +13,11 @@ function init() {
 }
 
 function deleteUser(user_id){
-    var id;
-    var elem;
-    if (user_id == -1) {
-        elem = document.getElementById('idfield_deleteform');
-        id = elem.value;
-    }
-    else
-    id = user_id;
-    var url = "?action=delete&delete=" + id;
+    var url = "?action=delete&delete=" + user_id;
     req = createReq();
     req.open("GET", url, true);
     req.send();
     req.onreadystatechange = checkState;
-    elem.value = "";
 }
 
 function createUser(){
@@ -41,14 +32,33 @@ function createUser(){
 }
 
 function showEditForm(id){
+    hideAddForm();
     var edit_form = document.getElementById('edit_form');
     var form = '<label for="idfield_editform">User id:</label>';
     form += '<input type="text" id="idfield_editform" name="id" placeholder="User id" value="' + id + '" readonly>';
     form += '<label for="namefield_editform">User name:</label>';
     form += '<input type="text" id="namefield_editform" name="name" placeholder="New name">';
     form += '<input onclick="editUser()" type="button" value="Accept">';
-    form += '<br>';
     edit_form.innerHTML = form;
+}
+
+function showAddForm(){
+    hideEditForm();
+    var add_form = document.getElementById('add_form');
+    var form = '<label for="namefield_createform">User name:</label>';
+    form += '<input type="text" id="namefield_createform" name="name" placeholder="User name">';
+    form += '<input value="Create" onclick="createUser()" type="button">';
+    add_form.innerHTML = form;
+}
+
+function hideEditForm(){
+    document.getElementById('edit_form').innerHTML = '';
+}
+
+function hideAddForm(){
+    document.getElementById('add_form').innerHTML = '';
+    var button = '<input type="button" value="Add user" onclick="showAddForm()">';
+    document.getElementById('add_form').innerHTML = button;
 }
 
 function editUser(){
@@ -87,26 +97,21 @@ function checkState() {
 }
 
 function updateTable(){
-    //Если пользователей нет, то удалить таблицу и показать надпись
-    //Если пользователи есть, то удалить таблицу, надпись и показать таблицу
-
     var users = $.parseJSON(req.responseText);
+
+    var buttons = '';
+    buttons += '<div id="add_form">';
+    buttons += '<input type="button" value="Add user" onclick="showAddForm()">';
+    buttons += '</div>';
+    buttons += '<div id="edit_form">';
+    buttons += '</div>';
+    buttons_div.innerHTML = buttons;
+
     if (users.length == 0){
         users_table_div.innerHTML = '';
         no_users_div.appendChild(no_users_text);
-        buttons_div.innerHTML = '';
     } else {
         no_users_div.innerHTML = '';
-
-        var buttons = '<label for="idfield_deleteform">User id:</label>';
-        buttons += '<input type="text" id="idfield_deleteform" name="delete" placeholder="User id">';
-        buttons += '<input onclick="deleteUser(-1)" type="button" value="Delete">';
-        buttons += '<br>';
-        buttons += '<div id="edit_form">';
-        buttons += '</div>';
-
-
-        buttons_div.innerHTML = buttons;
 
         var table;
         if (document.getElementById('users') == null)

@@ -8,17 +8,13 @@
 <script src="<c:out value="${pageContext.request.contextPath}" />/scripts/common.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <body onload="init()">
-    <label for="namefield_createform">User name:</label>
-    <input type="text" id="namefield_createform" name="name" placeholder="User name">
-    <input value="Create" onclick="createUser()" type="button">
-<br>
+
         <c:choose>
             <c:when test="${usersList.size() > 0}">
                 <div id="buttons">
-                    <label for="idfield_deleteform">User id:</label>
-                    <input type="text" id="idfield_deleteform" name="delete" placeholder="User id">
-                    <input onclick="deleteUser(-1)" type="button" value="Delete">
-                <br>
+                    <div id="add_form">
+                    <input type="button" value="Add user" onclick="showAddForm()">
+                    </div>
                     <div id="edit_form">
                     </div>
                 </div>
@@ -45,7 +41,13 @@
                 <div id="no_users"></div>
             </c:when>
             <c:otherwise>
-                <div id="buttons"></div>
+                <div id="buttons">
+                    <div id="add_form">
+                        <input type="button" value="Add user" onclick="showAddForm()">
+                    </div>
+                    <div id="edit_form">
+                    </div>
+                </div>
                 <div id="users_table"></div>
                 <div id="no_users">No users in database.</div>
             </c:otherwise>
