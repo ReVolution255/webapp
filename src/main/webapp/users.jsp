@@ -26,6 +26,7 @@
                     <input onclick="editUser()" type="button" value="Accept">
                 <br>
                 </div>
+                <div id="users_table">
                 <table id="users" border=1>
             <c:forEach var="user" items="${usersList}">
                 <tr>
@@ -48,9 +49,13 @@
                 </tr>
             </c:forEach>
                 </table>
+                </div>
+                <div id="no_users"></div>
             </c:when>
             <c:otherwise>
-                <div id="nousers"><b>No users in database.</b></div>
+                <div id="buttons"></div>
+                <div id="users_table"></div>
+                <div id="no_users">No users in database.</div>
             </c:otherwise>
         </c:choose>
 </body>
