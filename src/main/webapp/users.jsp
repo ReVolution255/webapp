@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div id="users_table"></div>
-                <div id="no_users">No users in database.</div>
+                <div id="no_users">No users in database</div>
             </c:otherwise>
         </c:choose>
 </body>

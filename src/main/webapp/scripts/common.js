@@ -13,7 +13,7 @@ function init() {
 }
 
 function deleteUser(user_id){
-    var deleteConfirmation = confirm("¬ы уверены, что хотите удалить пользовател€ id: " + user_id + " ?");
+    var deleteConfirmation = confirm("Delete user with id: " + user_id + " ?");
     if (!deleteConfirmation) return;
     var url = "?action=delete&delete=" + user_id;
     req = createReq();
