@@ -19,11 +19,6 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>Application</servlet-name>
-        <url-pattern>/index*</url-pattern>
-    </servlet-mapping>
-
     <servlet>
         <servlet-name>AboutUser</servlet-name>
         <servlet-class>main.java.AboutUser</servlet-class>
@@ -68,13 +63,4 @@
         <servlet-name>Jersey REST Service</servlet-name>
         <url-pattern>/users/*</url-pattern>
     </servlet-mapping>
-
-<!--    <filter>
-        <filter-name>Jersey</filter-name>
-        <filter-class>com.sun.jersey.spi.container.servlet.ServletContainer</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>Jersey</filter-name>
-        <url-pattern>/users/*</url-pattern>
-    </filter-mapping>-->
 </web-app>
