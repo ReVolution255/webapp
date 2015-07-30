@@ -15,20 +15,20 @@ function init() {
 function deleteUser(user_id){
     var deleteConfirmation = confirm("Удалить пользователя с id: " + user_id + " ?");
     if (!deleteConfirmation) return;
-    var url = "?action=delete&delete=" + user_id;
+    var url = "/users/" + user_id;
     req = createReq();
-    req.open("GET", url, true);
+    req.open("DELETE", url, true);
     req.send();
     req.onreadystatechange = checkState;
 }
 
 function createUser(){
     var elem = document.getElementById('namefield_createform');
-    var name = elem.value;
-    var url = "?action=create&name=" + name;
+    var name = 'name=' + encodeURIComponent(elem.value);
+    var url = "/users/";
     req = createReq();
-    req.open("GET", url, true);
-    req.send();
+    req.open("POST", url, true);
+    req.send(name);
     req.onreadystatechange = checkState;
     elem.value = "";
 }
@@ -70,9 +70,9 @@ function editUser(){
     var id = elem1.value;
     var elem2 = document.getElementById('namefield_editform');
     var name = elem2.value;
-    var url = "?action=edit&id=" + id + "&name=" + name;
+    var url = "/users/" + id + "/" + name;
     req = createReq();
-    req.open("GET", url, true);
+    req.open("PUT", url, true);
     req.send();
     req.onreadystatechange = checkState;
     elem1.value = "";
