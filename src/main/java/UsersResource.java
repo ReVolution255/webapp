@@ -15,6 +15,13 @@ import java.util.List;
 public class UsersResource {
     SqlSession session;
 
+    @GET
+    public String getUsers(){
+        UsersExample query;
+        query = null;
+        return getUsersAsJSON(query);
+    }
+
     @GET @Path("{id}")
     public String getUser(@DefaultValue("-1") @PathParam("id") long id){
         UsersExample query;
