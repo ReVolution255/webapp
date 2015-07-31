@@ -4,10 +4,23 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-public class SessionManager {
+public class UsersManager {
+    public UsersManager() {
+        try {
+            reader = Resources.getResourceAsReader("mybatis-config.xml");
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private static Reader reader;
+    private static SqlSessionFactory sqlSessionFactory;
     public UsersMapper getMapper(SqlSession s){
         return s.getMapper(UsersMapper.class);
     }
@@ -20,12 +33,8 @@ public class SessionManager {
         return users;
     }
 
-    public static SqlSession getSession(){
-        SqlSessionFactory sqlSessionFactory;
-        Reader reader;
+    private static SqlSession getSession(){
         try {
-            reader = Resources.getResourceAsReader("mybatis-config.xml");
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
             return sqlSessionFactory.openSession();
         } catch (Exception e) {
             e.printStackTrace();

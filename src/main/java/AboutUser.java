@@ -11,7 +11,7 @@ public class AboutUser extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Get data
         long id = Long.parseLong(req.getParameter("id"));
-        main.java.SessionManager manager = new main.java.SessionManager();
+        main.java.UsersManager manager = new main.java.UsersManager();
         Users user = manager.selectByPrimaryKey(id);
         //Send data
         req.setAttribute("user", user);
