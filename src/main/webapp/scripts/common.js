@@ -15,7 +15,7 @@ function init() {
 function deleteUser(user_id){
     var deleteConfirmation = confirm("Удалить пользователя с id: " + user_id + " ?");
     if (!deleteConfirmation) return;
-    var url = "/users/" + user_id;
+    var url = "users/" + user_id;
     req = createReq();
     req.open("DELETE", url, true);
     req.send();
@@ -25,9 +25,10 @@ function deleteUser(user_id){
 function createUser(){
     var elem = document.getElementById('namefield_createform');
     var name = 'name=' + encodeURIComponent(elem.value);
-    var url = "/users/";
+    var url = "users/";
     req = createReq();
     req.open("POST", url, true);
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     req.send(name);
     req.onreadystatechange = checkState;
     elem.value = "";
@@ -70,7 +71,7 @@ function editUser(){
     var id = elem1.value;
     var elem2 = document.getElementById('namefield_editform');
     var name = elem2.value;
-    var url = "/users/" + id + "/" + name;
+    var url = "users/" + id + "/" + name;
     req = createReq();
     req.open("PUT", url, true);
     req.send();

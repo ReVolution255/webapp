@@ -1,3 +1,4 @@
+package main.java;
 import javax.ws.rs.*;
 import javax.ws.rs.ext.Provider;
 
@@ -9,9 +10,8 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
-@Path("/users/")
+@Path("/")
 @Produces("text/plain")
-@Provider
 public class UsersResource {
     SqlSession session;
 
