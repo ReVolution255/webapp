@@ -10,17 +10,27 @@ import java.io.Reader;
 import java.util.List;
 
 public class UsersManager {
-    public UsersManager() {
+
+    private static SqlSessionFactory build(){
+        SqlSessionFactory factory = null;
         try {
             Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+            factory = new SqlSessionFactoryBuilder().build(reader);
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return factory;
     }
 
-    private SqlSessionFactory sqlSessionFactory;
+    private static SqlSessionFactory sqlSessionFactoryInstance;
+
+    private static SqlSessionFactory getFactory(){
+        if (sqlSessionFactoryInstance == null)
+            sqlSessionFactoryInstance = build();
+        return sqlSessionFactoryInstance;
+    }
+
     public UsersMapper getMapper(SqlSession s){
         return s.getMapper(UsersMapper.class);
     }
@@ -35,7 +45,7 @@ public class UsersManager {
 
     private SqlSession getSession(){
         try {
-            return sqlSessionFactory.openSession();
+            return getFactory().openSession();
         } catch (Exception e) {
             e.printStackTrace();
         }
