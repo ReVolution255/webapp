@@ -12,14 +12,14 @@ import java.util.List;
 public class UsersManager {
     public UsersManager() {
         try {
-            reader = Resources.getResourceAsReader("mybatis-config.xml");
+            Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    private static Reader reader;
+
     private static SqlSessionFactory sqlSessionFactory;
     public UsersMapper getMapper(SqlSession s){
         return s.getMapper(UsersMapper.class);
