@@ -13,23 +13,27 @@ function init() {
 }
 
 function deleteUser(user_id){
+    var user = {};
     var deleteConfirmation = confirm("Удалить пользователя с id: " + user_id + " ?");
     if (!deleteConfirmation) return;
-    var url = "users/" + user_id;
+    var url = "users/";
+    user.id = user_id;
     req = createReq();
     req.open("DELETE", url, true);
-    req.send();
+    req.setRequestHeader('Content-Type', 'application/json');
+    req.send(JSON.stringify(user));
     req.onreadystatechange = checkState;
 }
 
 function createUser(){
+    var user = {};
     var elem = document.getElementById('namefield_createform');
-    var name = 'name=' + encodeURIComponent(elem.value);
+    user.name = elem.value;
     var url = "users/";
     req = createReq();
     req.open("POST", url, true);
-    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    req.send(name);
+    req.setRequestHeader('Content-Type', 'application/json');
+    req.send(JSON.stringify(user));
     req.onreadystatechange = checkState;
     elem.value = "";
 }
@@ -67,14 +71,16 @@ function hideAddForm(){
 }
 
 function editUser(){
+    var user = {};
     var elem1 = document.getElementById('idfield_editform');
-    var id = elem1.value;
+    user.id = elem1.value;
     var elem2 = document.getElementById('namefield_editform');
-    var name = elem2.value;
-    var url = "users/" + id + "/" + name;
+    user.name = elem2.value;
+    var url = "users/";
     req = createReq();
     req.open("PUT", url, true);
-    req.send();
+    req.setRequestHeader('Content-Type', 'application/json');
+    req.send(JSON.stringify(user));
     req.onreadystatechange = checkState;
     elem1.value = "";
     elem2.value = "";
@@ -103,7 +109,6 @@ function checkState() {
 
 function updateTable(){
     var users = $.parseJSON(req.responseText);
-
     var buttons = '';
     buttons += '<div id="add_form">';
     buttons += '<input type="button" value="Add user" onclick="showAddForm()">';

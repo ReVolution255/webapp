@@ -1,29 +1,19 @@
 package main.java;
 import javax.ws.rs.*;
-import javax.ws.rs.ext.Provider;
-
-import com.google.gson.Gson;
-import main.java.Users;
-import main.java.UsersExample;
-import main.java.UsersMapper;
-import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
 @Path("/")
-@Produces("text/plain")
+@Produces("application/json")
 public class UsersResource {
-    SqlSession session;
 
     @GET
-    public String getUsers(){
-        UsersExample query;
-        query = null;
-        return getUsersAsJSON(query);
+    public List<Users> getUsers(){
+        return getUsers(null);
     }
 
     @GET @Path("{id}")
-    public String getUser(@DefaultValue("-1") @PathParam("id") long id){
+    public List<Users> getUser(@PathParam("id") long id){
         UsersExample query;
         if (id == -1){
             query = null;
@@ -31,49 +21,38 @@ public class UsersResource {
             query = new UsersExample();
             query.createCriteria().andIdEqualTo(id);
         }
-        return getUsersAsJSON(query);
+        return getUsers(query);
     }
-    @POST @Consumes("application/x-www-form-urlencoded")
-    public String addUser(@DefaultValue("unnamed") @FormParam("name") String name){
-        Users newUser = new Users();
-        newUser.setName(name);
-        getMapper().insert(newUser);
+    @POST @Consumes("application/json")
+    public List<Users> addUser(Users user){
+        getMapper().insert(user);
 
-        session.commit();
-        session.close();
-        return getUsersAsJSON(null);
+        main.java.SessionManager.closeSession();
+        return getUsers(null);
     }
-    @PUT @Path("{id}/{name}")
-    public String updateUser(@DefaultValue("-1") @PathParam("id") long id,
-                             @DefaultValue("unnamed") @PathParam("name") String name){
-        Users editedUser = new Users();
-        if (id != -1) {
-            editedUser.setName(name);
-            editedUser.setId(id);
-            getMapper().updateByPrimaryKey(editedUser);
-        }
+    @PUT @Consumes("application/json")
+    public List<Users> updateUser(Users user){
+        getMapper().updateByPrimaryKey(user);
 
-        session.commit();
-        session.close();
-        return getUsersAsJSON(null);
+        main.java.SessionManager.closeSession();
+        return getUsers(null);
     }
-    @DELETE @Path("{id}")
-    public String deleteUser(@DefaultValue("-1") @PathParam("id") long id){
-        if (id != -1)
-        getMapper().deleteByPrimaryKey(id);
+    @DELETE @Consumes("application/json")
+    public List<Users> deleteUser(Users user){
+        if (user.getId() != -1)
+        getMapper().deleteByPrimaryKey(user.getId());
 
-        session.commit();
-        session.close();
-        return getUsersAsJSON(null);
+        main.java.SessionManager.closeSession();
+        return getUsers(null);
     }
+
+
 
     public UsersMapper getMapper(){
-        session = main.java.SessionManager.getSession();;
-        return session.getMapper(UsersMapper.class);
+        return main.java.SessionManager.getSession().getMapper(UsersMapper.class);
     }
 
-    public String getUsersAsJSON(UsersExample example){
-        List<Users> users = getMapper().selectByExample(example);
-        return new Gson().toJson(users);
+    public List<Users> getUsers(UsersExample example){
+        return getMapper().selectByExample(example);
     }
 }

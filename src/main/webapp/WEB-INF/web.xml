@@ -60,6 +60,10 @@
                 </param-value>
         </init-param>
         <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>org.glassfish.jersey.jackson.JacksonFeature</param-value>
+        </init-param>
+        <init-param>
             <param-name>jersey.config.server.tracing</param-name>
             <param-value>ALL</param-value>
         </init-param>
