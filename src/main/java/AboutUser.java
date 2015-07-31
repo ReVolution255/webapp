@@ -1,6 +1,5 @@
 package main.java;
 
-import org.apache.ibatis.session.SqlSession;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,16 +11,8 @@ public class AboutUser extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Get data
         long id = Long.parseLong(req.getParameter("id"));
-
-        //Handle data
-        SqlSession session = main.java.SessionManager.getSession();
-        UsersMapper usersMapper = session.getMapper(UsersMapper.class);
-        Users user = usersMapper.selectByPrimaryKey(id);
-
-        //Close session
-        session.commit();
-        session.close();
-
+        main.java.SessionManager manager = new main.java.SessionManager();
+        Users user = manager.selectByPrimaryKey(id);
         //Send data
         req.setAttribute("user", user);
         req.getRequestDispatcher("/about-user.jsp").forward(req, resp);
