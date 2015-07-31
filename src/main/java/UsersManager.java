@@ -20,7 +20,7 @@ public class UsersManager {
         }
     }
 
-    private static SqlSessionFactory sqlSessionFactory;
+    private SqlSessionFactory sqlSessionFactory;
     public UsersMapper getMapper(SqlSession s){
         return s.getMapper(UsersMapper.class);
     }
@@ -33,7 +33,7 @@ public class UsersManager {
         return users;
     }
 
-    private static SqlSession getSession(){
+    private SqlSession getSession(){
         try {
             return sqlSessionFactory.openSession();
         } catch (Exception e) {
