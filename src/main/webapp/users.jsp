@@ -10,55 +10,38 @@
 <link rel="stylesheet" href="<c:out value="${pageContext.request.contextPath}" />/css/style.css">
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <body onload="init()">
-
-        <c:choose>
-            <c:when test="${usersList.size() > 0}">
-                <div id="buttons">
-                    <div id="add_form">
-                    <input id="add_button" type="button" value="Add user" onclick="showAddForm()">
-                    </div>
-                    <div id="edit_form">
-                    </div>
-                </div>
-                <div id="users_table">
-                <table id="users" border="1">
-                    <tr>
-                        <th>User ID</th>
-                        <th>User Name</th>
-                        <th>Edit User</th>
-                        <th>Delete User</th>
-                    </tr>
-            <c:forEach var="user" items="${usersList}">
-                <tr>
-                    <td>
-                        <a href="about-user?id=<c:out value="${user.id}" />"><c:out value="${user.id}" /></a>
-                    </td>
-                    <td class="username" id="<c:out value="${user.id}" />">
-                        <a href="about-user?id=<c:out value="${user.id}" />"><c:out value="${user.name}" /></a>
-                    </td>
-                    <td>
-                        <input name="edit" type="button" value="Edit" onclick="showEditForm(${user.id})" />
-                    </td>
-                    <td>
-                        <input name="delete" type="button" value="Delete" onclick="deleteUser(${user.id})" />
-                    </td>
-                </tr>
-            </c:forEach>
-                </table>
-                </div>
-                <div id="no_users"></div>
-            </c:when>
-            <c:otherwise>
-                <div id="buttons">
-                    <div id="add_form">
-                        <input type="button" value="Add user" onclick="showAddForm()">
-                    </div>
-                    <div id="edit_form">
-                    </div>
-                </div>
-                <div id="users_table"></div>
-                <div id="no_users">No users in database</div>
-            </c:otherwise>
-        </c:choose>
+<div id="manage_panel">
+    <div id="buttons">
+        <input id="add_button" type="button" value="Add user" onclick="showAddForm()">
+    </div>
+    <div id="add_form">
+        <label for="namefield_createform">User name:</label>
+        <input type="text" id="namefield_createform" name="name" placeholder="User name">
+        <input value="Create" onclick="createUser()" type="button">
+    </div>
+    <div id="edit_form">
+        <label for="idfield_editform">User id:</label>
+        <input type="text" id="idfield_editform" name="id" placeholder="User id" value="" readonly>
+        <br>
+        <label for="namefield_editform">User name:</label>
+        <input type="text" id="namefield_editform" name="name" placeholder="New name">
+        <br>
+        <input onclick="editUser()" type="button" value="Accept">
+    </div>
+</div>
+    <div id="users_table">
+        <table id="users" border="1">
+            <thead>
+            <tr>
+                <th>User ID</th>
+                <th>User Name</th>
+                <th>Edit User</th>
+                <th>Delete User</th>
+            </tr>
+            </thead>
+            <tbody id="users_list"></tbody>
+        </table>
+    </div>
+    <div id="no_users"></div>
 </body>
 </html>

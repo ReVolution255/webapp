@@ -13,17 +13,20 @@ td, th {
     margin: auto;
     max-width: 15%;
 }
-#users{
+#users {
     margin: auto;
     width: 40%;
     max-width: 30%;
 }
-#buttons{
+#manage_panel {
     margin: auto;
     width: 50%;
     max-width: 30%;
     margin-bottom: 30px;
     text-align: center;
+}
+#add_button {
+    margin-bottom: 15px;
 }
 #no_users{
     text-align: center;
