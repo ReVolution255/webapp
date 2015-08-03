@@ -158,6 +158,7 @@ function updateTable(){
         no_users_div.style.display = 'block';
     } else {
         no_users_div.style.display = 'none';
+        users_table_div.style.display = 'block';
         var table_body = document.getElementById('users_list');
         table_body.innerHTML = '';
         $.each(users, function (number, user) {
