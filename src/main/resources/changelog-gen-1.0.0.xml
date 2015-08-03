@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+    <changeSet author="1 (generated)" id="1438630162790-1">
+        <createTable catalogName="postgres" schemaName="public" tableName="groups">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="groups_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(2147483647)"/>
+            <column name="parent_id" type="INT8"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-2">
+        <createTable catalogName="postgres" schemaName="public" tableName="permissions">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="permissions_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(2147483647)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-3">
+        <createTable catalogName="postgres" schemaName="public" tableName="role_permissions">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="role_permissions_pkey"/>
+            </column>
+            <column autoIncrement="true" name="permission_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column autoIncrement="true" name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-4">
+        <createTable catalogName="postgres" schemaName="public" tableName="roles">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="roles_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(2147483647)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-5">
+        <createTable catalogName="postgres" schemaName="public" tableName="user_groups">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="user_groups_pkey"/>
+            </column>
+            <column autoIncrement="true" name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column autoIncrement="true" name="group_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-6">
+        <createTable catalogName="postgres" schemaName="public" tableName="user_roles">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="user_roles_pkey"/>
+            </column>
+            <column autoIncrement="true" name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column autoIncrement="true" name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-7">
+        <createTable catalogName="postgres" schemaName="public" tableName="users">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="users_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(2147483647)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-8">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableCatalogName="postgres" baseTableName="groups" baseTableSchemaName="public" constraintName="groups_parent_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="postgres" referencedTableName="groups" referencedTableSchemaName="public"/>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-9">
+        <addForeignKeyConstraint baseColumnNames="permission_id" baseTableCatalogName="postgres" baseTableName="role_permissions" baseTableSchemaName="public" constraintName="role_permissions_permission_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="postgres" referencedTableName="permissions" referencedTableSchemaName="public"/>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-10">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableCatalogName="postgres" baseTableName="role_permissions" baseTableSchemaName="public" constraintName="role_permissions_role_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="postgres" referencedTableName="roles" referencedTableSchemaName="public"/>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-11">
+        <addForeignKeyConstraint baseColumnNames="group_id" baseTableCatalogName="postgres" baseTableName="user_groups" baseTableSchemaName="public" constraintName="user_groups_group_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="postgres" referencedTableName="groups" referencedTableSchemaName="public"/>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-12">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableCatalogName="postgres" baseTableName="user_groups" baseTableSchemaName="public" constraintName="user_groups_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="postgres" referencedTableName="users" referencedTableSchemaName="public"/>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-13">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableCatalogName="postgres" baseTableName="user_roles" baseTableSchemaName="public" constraintName="user_roles_role_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="postgres" referencedTableName="roles" referencedTableSchemaName="public"/>
+    </changeSet>
+    <changeSet author="1 (generated)" id="1438630162790-14">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableCatalogName="postgres" baseTableName="user_roles" baseTableSchemaName="public" constraintName="user_roles_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="postgres" referencedTableName="users" referencedTableSchemaName="public"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="03082015-1" author="vladimir">
+        <comment>
+            Создание таблицы с пользователями
+        </comment>
+        <sql>
+            CREATE TABLE users (
+            id bigserial PRIMARY KEY,
+            name varchar
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="03082015-2" author="vladimir">
+        <comment>
+            Создание таблицы с группами
+        </comment>
+        <sql>
+            CREATE TABLE groups (
+            id bigserial PRIMARY KEY,
+            name varchar,
+            parent_id bigint REFERENCES groups(id)
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="03082015-3" author="vladimir">
+        <comment>
+            Создание таблицы с ролями
+        </comment>
+        <sql>
+            CREATE TABLE roles (
+            id bigserial PRIMARY KEY,
+            name varchar
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="03082015-4" author="vladimir">
+        <comment>
+            Создание таблицы с разрешениями
+        </comment>
+        <sql>
+            CREATE TABLE permissions (
+            id bigserial PRIMARY KEY,
+            name varchar
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="03082015-5" author="vladimir">
+        <comment>
+            Создание таблицы-связки пользователь-группа
+        </comment>
+        <sql>
+            CREATE TABLE user_groups (
+            id bigserial PRIMARY KEY,
+            user_id bigserial REFERENCES users(id),
+            group_id bigserial REFERENCES groups(id)
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="03082015-6" author="vladimir">
+        <comment>
+            Создание таблицы связки роль-разрешение
+        </comment>
+        <sql>
+            CREATE TABLE role_permissions (
+            id bigserial PRIMARY KEY,
+            permission_id bigserial REFERENCES permissions(id),
+            role_id bigserial REFERENCES roles(id)
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="03082015-7" author="vladimir">
+        <comment>
+            Создание таблицы-связки пользователь-роль
+        </comment>
+        <sql>
+            CREATE TABLE user_roles (
+            id bigserial PRIMARY KEY,
+            role_id bigserial REFERENCES roles(id),
+            user_id bigserial REFERENCES users(id)
+            )
+        </sql>
+    </changeSet>
+</databaseChangeLog>
