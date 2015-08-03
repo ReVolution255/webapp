@@ -10,7 +10,6 @@
     </Appenders>
     <Loggers>
         <Root level="trace">
-            <Appender-Ref ref="Console"/>
             <Appender-Ref ref="File"/>
         </Root>
     </Loggers>

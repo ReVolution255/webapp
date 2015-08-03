@@ -39,8 +39,9 @@ public class UsersManager {
 
     public UsersMapper getMapper(SqlSession s){
         logger.entry(s);
-        logger.exit();
-        return s.getMapper(UsersMapper.class);
+        UsersMapper mapper = s.getMapper(UsersMapper.class);
+        logger.exit(mapper);
+        return mapper;
     }
 
     public List<Users> getUsers(UsersExample example){
@@ -56,8 +57,9 @@ public class UsersManager {
     private SqlSession getSession(){
         logger.entry();
         try {
-            logger.exit();
-            return getFactory().openSession();
+            SqlSession session = getFactory().openSession();
+            logger.exit(session);
+            return session;
         } catch (Exception e) {
             logger.catching(e);
         }
