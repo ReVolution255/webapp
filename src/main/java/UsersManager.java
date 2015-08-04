@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-public class UsersManager {
+public class UsersManager implements main.java.IBDReader {
     private static final Logger logger = LogManager.getLogger();
     private static SqlSessionFactory build(){
         logger.entry();
@@ -26,7 +26,6 @@ public class UsersManager {
         logger.exit(factory);
         return factory;
     }
-
     private static SqlSessionFactory sqlSessionFactoryInstance;
 
     private static SqlSessionFactory getFactory(){

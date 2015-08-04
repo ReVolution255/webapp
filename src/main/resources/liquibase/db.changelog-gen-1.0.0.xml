@@ -5,7 +5,7 @@
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true" primaryKeyName="groups_pkey"/>
             </column>
-            <column name="name" type="VARCHAR(2147483647)"/>
+            <column name="name" type="VARCHAR"/>
             <column name="parent_id" type="INT8"/>
         </createTable>
     </changeSet>
@@ -14,7 +14,7 @@
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true" primaryKeyName="permissions_pkey"/>
             </column>
-            <column name="name" type="VARCHAR(2147483647)"/>
+            <column name="name" type="VARCHAR"/>
         </createTable>
     </changeSet>
     <changeSet author="1 (generated)" id="1438630162790-3">
@@ -35,7 +35,7 @@
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true" primaryKeyName="roles_pkey"/>
             </column>
-            <column name="name" type="VARCHAR(2147483647)"/>
+            <column name="name" type="VARCHAR"/>
         </createTable>
     </changeSet>
     <changeSet author="1 (generated)" id="1438630162790-5">

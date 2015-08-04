@@ -1,4 +1,5 @@
 package main.java;
+import com.google.inject.Guice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Produces("application/json")
 public class UsersResource {
     private static final Logger logger = LogManager.getLogger();
-    private main.java.UsersManager manager = new main.java.UsersManager();
+    private main.java.IBDReader manager = Guice.createInjector(new main.java.BDModule()).getInstance(main.java.IBDReader.class);
     @GET
     public List<Users> getUsers(){
         logger.entry();
