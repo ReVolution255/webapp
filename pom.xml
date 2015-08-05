@@ -124,7 +124,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>process-resources</phase>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>update</goal>
                         </goals>
