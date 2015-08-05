@@ -1,7 +1,9 @@
 package main.java;
-import com.google.inject.Guice;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.ws.rs.*;
 
@@ -11,10 +13,22 @@ import java.util.List;
 @Produces("application/json")
 public class UsersResource {
     private static final Logger logger = LogManager.getLogger();
-    private main.java.IBDReader manager = Guice.createInjector(new main.java.BDModule()).getInstance(main.java.IBDReader.class);
+
+    public main.java.IDBReader getManager() {
+        return manager;
+    }
+
+    public void setManager(main.java.IDBReader manager) {
+        logger.info("setManager");logger.info("Manager is " + (manager != null));
+        this.manager = manager;
+    }
+
+    private main.java.IDBReader manager;
+
     @GET
     public List<Users> getUsers(){
         logger.entry();
+        logger.info(manager != null);
         List<Users> users = manager.getUsers(null);
         logger.exit(users);
         return users;

@@ -6,13 +6,24 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-public class UsersManager implements main.java.IBDReader {
+public class UsersManager implements main.java.IDBReader {
     private static final Logger logger = LogManager.getLogger();
+
+    public static main.java.IDBReader daoFactory(){
+        logger.info("daoFactory");
+        main.java.IDBReader reader = new UsersManager();
+        logger.info((reader != null) + " Reader state: " + reader.toString());
+        return reader;
+    }
+
     private static SqlSessionFactory build(){
         logger.entry();
         SqlSessionFactory factory = null;
@@ -26,6 +37,7 @@ public class UsersManager implements main.java.IBDReader {
         logger.exit(factory);
         return factory;
     }
+
     private static SqlSessionFactory sqlSessionFactoryInstance;
 
     private static SqlSessionFactory getFactory(){
@@ -47,7 +59,9 @@ public class UsersManager implements main.java.IBDReader {
         logger.entry(example);
         SqlSession s = getSession();
         List<Users> users = getMapper(s).selectByExample(example);
-        s.commit();
+        if (s != null) {
+            s.commit();
+        }
         s.close();
         logger.exit(users);
         return users;

@@ -2,7 +2,7 @@ package main.java;
 
 import java.util.List;
 
-public interface IBDReader {
+public interface IDBReader {
     List<Users> getUsers(UsersExample example);
     void insert(Users user);
     void updateByPrimaryKey(Users user);

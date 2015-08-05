@@ -13,10 +13,6 @@ public class UsersPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.entry(req, resp);
-        main.java.UsersManager manager = new main.java.UsersManager();
-        List<Users> users = manager.getUsers(null);
-        //Send data
-        req.setAttribute("usersList", users);
         req.getRequestDispatcher("users.jsp").forward(req, resp);
         logger.exit();
     }
