@@ -30,7 +30,6 @@ public class UsersResource {
     @GET
     public List<Users> getUsers(){
         logger.entry();
-        logger.info(manager != null);
         List<Users> users = manager.getUsers(null);
         logger.exit(users);
         return users;
@@ -51,19 +50,15 @@ public class UsersResource {
         return users;
     }
     @PUT @Consumes("application/json")
-    public List<Users> updateUser(Users user){
+    public void updateUser(Users user){
         logger.entry(user);
         manager.updateByPrimaryKey(user);
-        List<Users> users = manager.getUsers(null);
-        logger.exit(users);
-        return users;
+        logger.exit();
     }
     @DELETE @Consumes("application/json")
-    public List<Users> deleteUser(Users user){
+    public void deleteUser(Users user){
         logger.entry(user);
         manager.deleteByPrimaryKey(user.getId());
-        List<Users> users = manager.getUsers(null);
-        logger.exit(users);
-        return users;
+        logger.exit();
     }
 }
