@@ -13,7 +13,7 @@ mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '
     $scope.delete = function (user) {
         var id = user.id;
         $http({method: 'DELETE', headers: {"Content-Type": "application/json"}, url: '/appmain/users/', data: {id: id}}).success(function (data, status, headers, config) {
-            $rootScope.users.slice($rootScope.users.indexOf(user, 1));
+            $rootScope.users.splice($rootScope.users.indexOf(user), 1);
         }).
             error(function (data, status, headers, config) {
                 console.log(status);
