@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 @Service
 public class UsersManager implements main.java.IDBReader {
@@ -15,9 +16,9 @@ public class UsersManager implements main.java.IDBReader {
     public UsersMapper getUsersMapper() {
         return usersMapper;
     }
-
+@Autowired
     private UsersMapper usersMapper;
-    @Autowired
+
     public void setUsersMapper(UsersMapper usersMapper) {
         this.usersMapper = usersMapper;
     }
