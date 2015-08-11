@@ -23,19 +23,6 @@ mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '
     $scope.update = function () {
         $http({method: 'GET',headers: {"Content-Type": "application/json"}, url: '/appmain/users/'}).success(function (data, status, headers, config) {
             $rootScope.users = angular.fromJson(data);
-/*            var list = angular.fromJson(data);
-            //Insert item, if inserted in server
-            list.forEach(function (item, i, arr) {
-                if ($rootScope.users.lastIndexOf(item) == -1) {
-                    $rootScope.users.push(item);
-                }
-            });
-            //Delete item, if deleted from server
-            $rootScope.users.forEach(function(item, i, arr) {
-                if (list.lastIndexOf(item) == -1) {
-                    $rootScope.users.splice($rootScope.users.indexOf(item), 1);
-                }
-            });*/
         }).
             error(function (data, status, headers, config) {
                 console.log(status);
