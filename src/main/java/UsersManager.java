@@ -5,16 +5,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Component
+@Service
 public class UsersManager implements main.java.IDBReader {
     private static final Logger logger = LogManager.getLogger();
-    @Autowired
-    private UsersMapper usersMapper;
 
-    public void setUsersMapper(UsersMapper userMapper) {
-        this.usersMapper = userMapper;
+    public UsersMapper getUsersMapper() {
+        return usersMapper;
+    }
+
+    private UsersMapper usersMapper;
+    @Autowired
+    public void setUsersMapper(UsersMapper usersMapper) {
+        this.usersMapper = usersMapper;
     }
 
     public static main.java.IDBReader daoFactory(){

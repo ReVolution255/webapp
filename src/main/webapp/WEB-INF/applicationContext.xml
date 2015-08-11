@@ -14,6 +14,8 @@
         <property name="manager" ref="usersDAO"/>
     </bean>
 
+    <!--<context:component-scan base-package="main.java" />-->
+
     <bean id="postgre" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="url" value="jdbc:postgresql://localhost:5432/postgres" />
         <property name="driverClassName" value="org.postgresql.Driver" />
