@@ -2,10 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
          http://www.springframework.org/schema/context
-         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <bean id="usersDAO" class="main.java.UsersManager" factory-method="daoFactory">
 
@@ -16,12 +17,7 @@
 
     <!--<context:component-scan base-package="main.java" />-->
 
-    <bean id="postgre" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="url" value="jdbc:postgresql://localhost:5432/postgres" />
-        <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="username" value="postgres" />
-        <property name="password" value="postgres" />
-    </bean>
+    <jee:jndi-lookup id="postgre" jndi-name="java:comp/env/jdbc/postgre" expected-type="javax.sql.DataSource"/>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="postgre" />
