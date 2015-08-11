@@ -27,16 +27,6 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>AboutUser</servlet-name>
-        <servlet-class>main.java.AboutUser</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>AboutUser</servlet-name>
-        <url-pattern>/about-user</url-pattern>
-    </servlet-mapping>
-
     <resource-ref>
         <description>PostgreSQL</description>
         <res-ref-name>jdbc/postgre</res-ref-name>
