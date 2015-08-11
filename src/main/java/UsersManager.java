@@ -3,15 +3,17 @@ package main.java;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public class UsersManager implements main.java.IDBReader {
     private static final Logger logger = LogManager.getLogger();
-
+    @Autowired
     private UsersMapper usersMapper;
 
-    public void setUserMapper(UsersMapper userMapper) {
+    public void setUsersMapper(UsersMapper userMapper) {
         this.usersMapper = userMapper;
     }
 

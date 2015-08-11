@@ -14,51 +14,53 @@
         <property name="manager" ref="usersDAO"/>
     </bean>
 
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="postgre" ref="postgre" />
+    <bean id="postgre" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="jdbc:postgresql://localhost:5432/postgres" />
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="username" value="postgres" />
+        <property name="password" value="postgres" />
     </bean>
 
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="main.java" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="postgre" />
     </bean>
 
     <bean id="usersManager" class="main.java.UsersManager">
         <property name="usersMapper" ref="usersMapper" />
     </bean>
-<!--
+
     <bean id="usersMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="java.main.UsersMapper" />
+        <property name="mapperInterface" value="main.java.UsersMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
     <bean id="groupsMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="java.main.GroupsMapper" />
+        <property name="mapperInterface" value="main.java.GroupsMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
     <bean id="rolesMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="java.main.RolesMapper" />
+        <property name="mapperInterface" value="main.java.RolesMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
     <bean id="permissionsMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="java.main.PermissionsMapper" />
+        <property name="mapperInterface" value="main.java.PermissionsMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
     <bean id="rolePermissionsMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="java.main.RolePermissionsMapper" />
+        <property name="mapperInterface" value="main.java.RolePermissionsMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
     <bean id="userGroupsMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="java.main.UserGroupsMapper" />
+        <property name="mapperInterface" value="main.java.UserGroupsMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
     <bean id="userRolesMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="java.main.UsersRolesMapper" />
+        <property name="mapperInterface" value="main.java.UserRolesMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-    </bean>-->
+    </bean>
 </beans>
