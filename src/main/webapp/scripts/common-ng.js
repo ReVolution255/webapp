@@ -4,7 +4,7 @@ mainModule.config(['$resourceProvider', function($resourceProvider) {
     $resourceProvider.defaults.stripTrailingSlashes = false;
 }]);
 
-mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '$modal', '$interval', function ($scope, $rootScope, $http, $modal, $interval) {
+mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '$modal', '$interval', function ($scope, $rootScope, $http, $modal) {
     $scope.search = '';
     $scope.animationsEnabled = true;
     $scope.$addModal = {};
@@ -51,7 +51,7 @@ mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '
     $scope.update();
 }]);
 
-mainModule.controller('modalController', ['$scope', '$rootScope', '$http', '$modal', '$interval', function ($scope, $rootScope, $http, $modal, $interval) {
+mainModule.controller('modalController', ['$scope', '$rootScope', '$http', '$modal', '$interval', function ($scope, $rootScope, $http) {
     $scope.animationsEnabled = true;
 
     $scope.newUserName = '';
