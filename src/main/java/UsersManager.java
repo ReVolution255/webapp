@@ -1,14 +1,12 @@
 package main.java;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
+
 @Service
 public class UsersManager implements main.java.IDBReader {
     private static final Logger logger = LogManager.getLogger();
@@ -16,7 +14,7 @@ public class UsersManager implements main.java.IDBReader {
     public UsersMapper getUsersMapper() {
         return usersMapper;
     }
-@Autowired
+    @Autowired
     private UsersMapper usersMapper;
 
     public void setUsersMapper(UsersMapper usersMapper) {

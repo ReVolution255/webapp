@@ -9,10 +9,45 @@
          http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <bean id="usersDAO" class="main.java.UsersManager" factory-method="daoFactory">
-
     </bean>
-    <bean id="restService" class="main.java.UsersResource">
+    <bean id="restServiceUsers" class="main.java.UsersResource">
         <property name="manager" ref="usersDAO"/>
+    </bean>
+
+    <bean id="groupsDAO" class="main.java.GroupsManager" factory-method="daoFactory">
+    </bean>
+    <bean id="restServiceGroups" class="main.java.GroupsResource">
+        <property name="manager" ref="groupsDAO"/>
+    </bean>
+
+    <bean id="rolesDAO" class="main.java.RolesManager" factory-method="daoFactory">
+    </bean>
+    <bean id="restServiceRoles" class="main.java.RolesResource">
+        <property name="manager" ref="rolesDAO"/>
+    </bean>
+
+    <bean id="permissionsDAO" class="main.java.PermissionsManager" factory-method="daoFactory">
+    </bean>
+    <bean id="restServicePermissions" class="main.java.PermissionsResource">
+        <property name="manager" ref="permissionsDAO"/>
+    </bean>
+
+    <bean id="rolePermissionsDAO" class="main.java.RolePermissionsManager" factory-method="daoFactory">
+    </bean>
+    <bean id="restServiceRolePermissions" class="main.java.RolePermissionsResource">
+        <property name="manager" ref="rolePermissionsDAO"/>
+    </bean>
+
+    <bean id="userGroupsDAO" class="main.java.UserGroupsManager" factory-method="daoFactory">
+    </bean>
+    <bean id="restServiceUserGroups" class="main.java.UserGroupsResource">
+        <property name="manager" ref="userGroupsDAO"/>
+    </bean>
+
+    <bean id="userRolesDAO" class="main.java.UserRolesManager" factory-method="daoFactory">
+    </bean>
+    <bean id="restServiceUserRoles" class="main.java.UserRolesResource">
+        <property name="manager" ref="userRolesDAO"/>
     </bean>
 
     <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/postgre"/>
@@ -26,5 +61,23 @@
     </bean>
 
     <bean id="usersManager" class="main.java.UsersManager">
+    </bean>
+
+    <bean id="groupsManager" class="main.java.GroupsManager">
+    </bean>
+
+    <bean id="rolesManager" class="main.java.RolesManager">
+    </bean>
+
+    <bean id="permissionsManager" class="main.java.PermissionsManager">
+    </bean>
+
+    <bean id="rolePermissionsManager" class="main.java.RolePermissionsManager">
+    </bean>
+
+    <bean id="userGroupsManager" class="main.java.UserGroupsManager">
+    </bean>
+
+    <bean id="userRolesManager" class="main.java.UserRolesManager">
     </bean>
 </beans>

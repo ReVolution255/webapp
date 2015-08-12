@@ -2,15 +2,13 @@ package main.java;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 
 import java.util.List;
 
-@Path("/")
+@Path("/users/")
 @Component
 @Produces("application/json")
 public class UsersResource {
@@ -21,7 +19,6 @@ public class UsersResource {
     }
 
     public void setManager(main.java.IDBReader manager) {
-        logger.info("setManager");logger.info("Manager is " + (manager != null));
         this.manager = manager;
     }
 
