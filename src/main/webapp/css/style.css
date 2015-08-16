@@ -36,16 +36,38 @@ input[type=text]{
 }
 .glyphicon-remove{
     color:#EE0000;
+    float: right;
 }
 .glyphicon-remove:hover{
     color:#FF0000;
+}
+.glyphicon-pencil{
+    float: right;
+    margin-right: 20px;
 }
 .glyphicon-pencil:hover{
     color:#0000FF;
 }
 .glyphicon-plus{
     color:#00EE00;
+    display: inline;
+    float: right;
+    cursor:pointer;
 }
 .glyphicon-plus:hover{
     color:#00FF00;
+}
+.panel{
+    overflow: hidden;
+}
+.search-query{
+    width:100%;
+}
+.inline-icon{
+    display:inline;
+}
+.row{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

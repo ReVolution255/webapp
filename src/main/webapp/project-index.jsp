@@ -12,7 +12,6 @@
     <script src="https://code.angularjs.org/1.4.3/angular-resource.js"></script>
     <script src="<c:out value="${pageContext.request.contextPath}" />/scripts/ui-bootstrap-tpls-0.13.2.min.js"></script>
     <script src="https://code.angularjs.org/1.4.3/angular-animate.min.js"></script>
-
     <script charset="utf-8" src="<c:out value="${pageContext.request.contextPath}" />/scripts/common-ng.js"></script>
 </head>
 <body>
@@ -43,35 +42,190 @@
             <button class="btn btn-primary" ng-click="edit(currentEditedUser)">Save</button>
         </div>
     </script>
+    <script type="text/ng-template" id="addRoleModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Add new role</h3>
+        </div>
+        <div class="modal-body">
+            <p>Role id is not allowed here. Enter new role name:</p>
+            <input type="text" placeholder="New role name" ng-model="newRoleName" value="{{newRoleName}}" />
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="create()">Create</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="editRoleModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit role</h3>
+        </div>
+        <div class="modal-body">
+            <p>Role id is not allowed here. Enter new role name:</p>
+            <input type="text" placeholder="Current id" ng-model="currentEditedRole.id" value="{{currentEditedRole.id}}" readonly/>
+            <input type="text" placeholder="New role name" ng-model="currentEditedRole.name" value="{{currentEditedRole.name}}" />
+            <p>Note: The data will be saved only if you click "Save".</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="edit(currentEditedRole)">Save</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="addGroupModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Add new group</h3>
+        </div>
+        <div class="modal-body">
+            <p>Group id is not allowed here. Enter new group name:</p>
+            <input type="text" placeholder="New group name" ng-model="newGroupName" value="{{newGroupName}}" />
+            <p>Select parent group:</p>
+            <select ng-model="parentId">
+                <option ng-repeat="group in groups" value="{{group.id}}">{{group.name}}</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="create()">Create</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="editGroupModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit group</h3>
+        </div>
+        <div class="modal-body">
+            <p>Group id is not allowed here. Enter new group name:</p>
+            <input type="text" placeholder="Current id" ng-model="currentEditedGroup.id" value="{{currentEditedGroup.id}}" readonly/>
+            <input type="text" placeholder="New group name" ng-model="currentEditedGroup.name" value="{{currentEditedGroup.name}}" />
+            <p>Current parent group: {{parent.name}}</p>
+            <p>Select other parent group:</p>
+            <select ng-model="currentEditedGroup.parent_id">
+                <option ng-repeat="group in groups" value="{{group.id}}">{{group.name}}</option>
+            </select>
+            <br>
+            <p>Note: The data will be saved only if you click "Save".</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="edit(currentEditedGroup)">Save</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="addPermissionModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Add new permission</h3>
+        </div>
+        <div class="modal-body">
+            <p>Permission id is not allowed here. Enter new permission name:</p>
+            <input type="text" placeholder="New permission name" ng-model="newPermissionName" value="{{newPermissionName}}" />
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="create()">Create</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="editPermissionModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit permission</h3>
+        </div>
+        <div class="modal-body">
+            <p>Permission id is not allowed here. Enter new permission name:</p>
+            <input type="text" placeholder="Current id" ng-model="currentEditedPermission.id" value="{{currentEditedPermission.id}}" readonly/>
+            <input type="text" placeholder="New permission name" ng-model="currentEditedPermission.name" value="{{currentEditedPermission.name}}" />
+            <p>Note: The data will be saved only if you click "Save".</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="edit(currentEditedGroup)">Save</button>
+        </div>
+    </script>
     <div class="page-header">
-        <h1>Simple one-page web app with some functions <small>All functions presented below</small></h1>
+        <h1>Simple one-page web app with some functions <small>All functions are presented below</small></h1>
     </div>
     <div class="row">
-        <div class="col-md-4 panel well" ng-controller="usersListController" style="overflow: hidden;">
+        <div class="col-md-4 panel well" ng-controller="usersListController">
             <p>Users with groups and roles
-                <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="left" popover="Create new" ng-click="open()" aria-hidden="true" style="display: inline;float: right;cursor:pointer;"></span>
+                <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="left" popover="Create new" ng-click="open()" aria-hidden="true"></span>
             </p>
             <form class="form-search form-search-sm">
                 <div class="input-append">
-                    <input type="text" ng-model="search" class="search-query" style="width:100%;" placeholder="Search...">
+                    <input type="text" ng-model="search" class="search-query" placeholder="Search...">
                 </div>
                 <ul class="nav nav-pills nav-stacked list-group">
                     <li class="animation list-group-item" ng-repeat="user in users | filter:search">
                         <div data-container="body" popover-trigger="mouseenter" popover-placement="top" popover="User id: {{user.id}} User name: {{user.name}}">
                         <span class="badge">{{user.id}}</span> {{user.name}}
-                            <div style="display: inline;">
-                                <span class="glyphicon glyphicon-remove" ng-click="delete(user)" aria-hidden="true" style="float: right;"></span>
+                            <div class="inline-icon">
+                                <span class="glyphicon glyphicon-remove" ng-click="delete(user)" aria-hidden="true"></span>
                             </div>
-                            <div style="display: inline;">
-                                <span class="glyphicon glyphicon-pencil" ng-click="editModal(user)" aria-hidden="true" style="float: right;margin-right: 20px;"></span>
+                            <div class="inline-icon">
+                                <span class="glyphicon glyphicon-pencil" ng-click="editModal(user)" aria-hidden="true"></span>
                             </div>
                         </div>
                     </li>
                 </ul>
             </form>
         </div>
-        <div class="col-md-4 panel well"><p>Roles with permissions</p></div>
-        <div class="col-md-4 panel well"><p>Groups list</p></div>
+        <div class="col-md-4 panel well" ng-controller="rolesListController">
+            <p>Roles with permissions
+                <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="left" popover="Create new" ng-click="addRole()" aria-hidden="true"></span>
+            </p>
+            <form class="form-search form-search-sm">
+                <div class="input-append">
+                    <input type="text" ng-model="search" class="search-query" placeholder="Search...">
+                </div>
+                <ul class="nav nav-pills nav-stacked list-group">
+                    <li class="animation list-group-item" ng-repeat="role in roles | filter:search">
+                        <div data-container="body" popover-trigger="mouseenter" popover-placement="top" popover="Role id: {{role.id}} Role name: {{role.name}}">
+                            <span class="badge">{{role.id}}</span> {{role.name}}
+                            <div class="inline-icon">
+                                <span class="glyphicon glyphicon-remove" ng-click="delete(role)" aria-hidden="true"></span>
+                            </div>
+                            <div class="inline-icon">
+                                <span class="glyphicon glyphicon-pencil" ng-click="editRole(role)" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+            <div ng-controller="permissionsListController">
+                <p>Permissions
+                    <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="left" popover="Create new" ng-click="addPermission()" aria-hidden="true"></span>
+                </p>
+                <form class="form-search form-search-sm">
+                    <div class="input-append">
+                        <input type="text" ng-model="search" class="search-query" placeholder="Search...">
+                    </div>
+                    <ul class="nav nav-pills nav-stacked list-group">
+                        <li class="animation list-group-item" ng-repeat="permission in permissions | filter:search">
+                            <div data-container="body" popover-trigger="mouseenter" popover-placement="top" popover="Permission id: {{permission.id}} Permission name: {{permission.name}}">
+                                <span class="badge">{{permission.id}}</span> {{permission.name}}
+                                <div class="inline-icon">
+                                    <span class="glyphicon glyphicon-remove" ng-click="delete(permission)" aria-hidden="true"></span>
+                                </div>
+                                <div class="inline-icon">
+                                    <span class="glyphicon glyphicon-pencil" ng-click="editPermission(permission)" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4 panel well" ng-controller="groupsListController">
+            <p>Groups list
+                <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="left" popover="Create new" ng-click="addGroup()" aria-hidden="true"></span>
+            </p>
+            <form class="form-search form-search-sm">
+                <div class="input-append">
+                    <input type="text" ng-model="search" class="search-query" placeholder="Search...">
+                </div>
+                <ul class="nav nav-pills nav-stacked list-group">
+                    <li class="animation list-group-item" ng-repeat="group in groups | filter:search">
+                        <div data-container="body" popover-trigger="mouseenter" popover-placement="top" popover="Group id: {{group.id}} Group name: {{group.name}}">
+                            <span class="badge">{{group.id}}</span> {{group.name}}
+                            <div class="inline-icon">
+                                <span class="glyphicon glyphicon-remove" ng-click="delete(group)" aria-hidden="true"></span>
+                            </div>
+                            <div class="inline-icon">
+                                <span class="glyphicon glyphicon-pencil" ng-click="editGroup(group)" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
     </div>
 </div>
 </body>

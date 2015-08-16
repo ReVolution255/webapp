@@ -69,7 +69,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>REST</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
     <filter>
