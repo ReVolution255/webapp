@@ -117,6 +117,7 @@
             <input type="text" placeholder="New group name" ng-model="newGroupName" value="{{newGroupName}}" />
             <p>Select parent group:</p>
             <select ng-model="parentId">
+                <option value="{{noParentId}}">No parent</option>
                 <option ng-repeat="group in groups" value="{{group.id}}">{{group.name}}</option>
             </select>
         </div>
@@ -132,9 +133,10 @@
             <p>Group id is not allowed here. Enter new group name:</p>
             <input type="text" placeholder="Current id" ng-model="currentEditedGroup.id" value="{{currentEditedGroup.id}}" readonly/>
             <input type="text" placeholder="New group name" ng-model="currentEditedGroup.name" value="{{currentEditedGroup.name}}" />
-            <p>Current parent group: {{parent.name}}</p>
+            <p>Current parent group: {{getParentName(currentEditedGroup.parent_id)}}</p>
             <p>Select other parent group:</p>
             <select ng-model="currentEditedGroup.parent_id">
+                <option value="{{noParentId}}">No parent</option>
                 <option ng-repeat="group in groups" value="{{group.id}}">{{group.name}}</option>
             </select>
             <br>

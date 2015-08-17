@@ -6,6 +6,7 @@ mainModule.config(['$resourceProvider', function($resourceProvider) {
 
 mainModule.filter('getById', function() {
     return function(input, id) {
+        if (id == null) return {name: 'None'};
         var i=0, len=input.length;
         for (; i<len; i++) {
             if (+input[i].id == +id) {
@@ -636,15 +637,27 @@ mainModule.controller('groupsListController', ['$scope', '$rootScope', '$http', 
     $scope.update();
 }]);
 
-mainModule.controller('modalGroupController', ['$scope', '$rootScope', '$http', '$filter', function ($scope, $rootScope, $http, $filter) {
+mainModule.controller('modalGroupController', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
     $scope.animationsEnabled = true;
 
     $scope.newGroupName = '';
     $scope.parentId = '';
-    $scope.parent = $filter('getById')($rootScope.groups, $rootScope.currentEditedGroup.parent_id);
+    $scope.noParentId = null;
+    $scope.getParentName = function(id) {
+        var input = $scope.groups;
+        if (id == null || id == undefined || id == "") return 'None';
+        var i=0, len=input.length;
+        for (; i<len; i++) {
+            if (+input[i].id == +id) {
+                return input[i].name;
+            }
+        }
+        return null;
+    };
     //CRUD: Update
     $scope.edit = function (group){
         $scope.$close();
+
         $rootScope.currentEditedGroup = {id: 'Undefined', name: ''};
         $http({method: 'PUT', url: '/appmain/rest/groups/', data: angular.toJson(group)}).success(function (data, status, headers, config) {
             $rootScope.groups[$rootScope.groups.indexOf(group)] = group;
