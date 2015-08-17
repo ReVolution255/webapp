@@ -36,7 +36,34 @@
             <p>User id is not allowed here. Enter new username:</p>
             <input type="text" placeholder="Current id" ng-model="currentEditedUser.id" value="{{currentEditedUser.id}}" readonly/>
             <input type="text" placeholder="New username" ng-model="currentEditedUser.name" value="{{currentEditedUser.name}}" />
-            <p>Note: The data will be saved only if you click "Save".</p>
+            <p>User roles:
+                <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="top" popover="Create new" ng-click="addUserRole()" aria-hidden="true"></span>
+                <select class="allowed-roles-list" ng-model="selectedRole">
+                    <option ng-repeat="role in allowedRoles track by role.id" value="{{role.id}}">{{role.name}}</option>
+                </select>
+            </p>
+            <ul class="nav nav-pills nav-stacked list-group">
+                <li class="animation list-group-item" ng-repeat="role in currentEditedUserRoles track by role.id">{{getRoleName(role.role_id)}}
+                    <div class="inline-icon">
+                        <span class="glyphicon glyphicon-remove" ng-click="deleteUserRole(role)" aria-hidden="true"></span>
+                    </div>
+                </li>
+            </ul>
+
+            <p>User groups:
+                <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="top" popover="Create new" ng-click="addUserGroup()" aria-hidden="true"></span>
+                <select class="allowed-roles-list" ng-model="selectedGroup">
+                    <option ng-repeat="group in allowedGroups track by group.id" value="{{group.id}}">{{group.name}}</option>
+                </select>
+            </p>
+            <ul class="nav nav-pills nav-stacked list-group">
+                <li class="animation list-group-item" ng-repeat="group in currentEditedUserGroups track by group.id">{{getGroupName(group.group_id)}}
+                    <div class="inline-icon">
+                        <span class="glyphicon glyphicon-remove" ng-click="deleteUserGroup(group)" aria-hidden="true"></span>
+                    </div>
+                </li>
+            </ul>
+            <p>Note: The name will be saved only if you click "Save".</p>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="edit(currentEditedUser)">Save</button>
@@ -62,7 +89,20 @@
             <p>Role id is not allowed here. Enter new role name:</p>
             <input type="text" placeholder="Current id" ng-model="currentEditedRole.id" value="{{currentEditedRole.id}}" readonly/>
             <input type="text" placeholder="New role name" ng-model="currentEditedRole.name" value="{{currentEditedRole.name}}" />
-            <p>Note: The data will be saved only if you click "Save".</p>
+            <p>Role permissions:
+                <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="top" popover="Create new" ng-click="addRolePermission()" aria-hidden="true"></span>
+                <select class="allowed-roles-list" ng-model="selectedPermission">
+                    <option ng-repeat="permission in allowedPermissions track by permission.id" value="{{permission.id}}">{{permission.name}}</option>
+                </select>
+            </p>
+            <ul class="nav nav-pills nav-stacked list-group">
+                <li class="animation list-group-item" ng-repeat="permission in currentEditedRolePermissions track by permission.id">{{getPermissionName(permission.permission_id)}}
+                    <div class="inline-icon">
+                        <span class="glyphicon glyphicon-remove" ng-click="deleteRolePermission(permission)" aria-hidden="true"></span>
+                    </div>
+                </li>
+            </ul>
+            <p>Note: The name will be saved only if you click "Save".</p>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="edit(currentEditedRole)">Save</button>
@@ -98,7 +138,7 @@
                 <option ng-repeat="group in groups" value="{{group.id}}">{{group.name}}</option>
             </select>
             <br>
-            <p>Note: The data will be saved only if you click "Save".</p>
+            <p>Note: The name and parent group will be saved only if you click "Save".</p>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="edit(currentEditedGroup)">Save</button>
@@ -124,7 +164,7 @@
             <p>Permission id is not allowed here. Enter new permission name:</p>
             <input type="text" placeholder="Current id" ng-model="currentEditedPermission.id" value="{{currentEditedPermission.id}}" readonly/>
             <input type="text" placeholder="New permission name" ng-model="currentEditedPermission.name" value="{{currentEditedPermission.name}}" />
-            <p>Note: The data will be saved only if you click "Save".</p>
+            <p>Note: The name will be saved only if you click "Save".</p>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="edit(currentEditedGroup)">Save</button>
@@ -135,6 +175,7 @@
     </div>
     <div class="row">
         <div class="col-md-4 panel well" ng-controller="usersListController">
+            <div style="display:none"><div ng-repeat="i in userRoles track by i.id"></div></div>
             <p>Users with groups and roles
                 <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="left" popover="Create new" ng-click="open()" aria-hidden="true"></span>
             </p>
