@@ -4,6 +4,21 @@ mainModule.config(['$resourceProvider', function($resourceProvider) {
     $resourceProvider.defaults.stripTrailingSlashes = false;
 }]);
 
+mainModule.config(['$routeProvider', function($routeProvider) {
+    $routeProvider
+        .when('/user/:userId', {
+            templateUrl: 'userPermissions',
+            controller: 'userPermissionsController'
+        })
+        .when('/group/:groupId', {
+            templateUrl: 'groupUsers',
+            controller: 'groupsController'
+        })
+        .when('/', {
+            templateUrl: 'main'
+        });
+}]);
+
 mainModule.filter('getById', function() {
     return function(input, id) {
         if (id == null) return {name: 'None'};
@@ -16,6 +31,133 @@ mainModule.filter('getById', function() {
         return null;
     }
 });
+
+mainModule.controller('userPermissionsController', ['$scope', '$rootScope', '$http', '$routeParams', function ($scope, $rootScope, $http, $routeParams) {
+    $scope.userId = $routeParams.userId;
+    $scope.currentEditedUserPermissions = [];
+    $scope.updateUserRoles = function () {
+        $http({method: 'GET', url: '/appmain/rest/userroles/', headers: {"Content-Type": "application/json"}})
+            .success(function (data, status, headers, config) {
+                var list = angular.fromJson(data);
+                //Insert item, if inserted in server
+                list.forEach(function (item, i, arr) {
+                    var found = false;
+                    $rootScope.userRoles.forEach(function (role, i, arr) {
+                        if (item.id == role.id)
+                            found = true;
+                    });
+                    if (!found && $scope.userRoles.indexOf(item) == -1) $rootScope.userRoles.push(item);
+                });
+                //Delete item, if deleted from server
+                $rootScope.userRoles.forEach(function(item, i, arr) {
+                    var found = true;
+                    list.forEach(function (role, i, arr) {
+                        if (item.id == role.id)
+                            found = false;
+                    });
+                    if (found && $scope.userRoles.indexOf(item) == -1) $rootScope.userRoles.splice(i, 1);
+                });
+                $scope.updateCurrentEditedUserRoles();
+            })
+            .error(function (data, status, headers, config) {
+                console.log(status);
+            });
+    };
+    $scope.updateCurrentEditedUserRoles = function () {
+        $scope.currentEditedUserRoles = [];
+        $rootScope.userRoles.forEach(function (item, i, arr) {
+            if (item.user_id == $scope.userId) $scope.currentEditedUserRoles.push(item);
+        });
+        $scope.updateUserPermissions();
+    };
+    $scope.updateUserPermissions = function (){
+        $scope.currentEditedUserRoles.forEach(function (role, i, arr){
+            $rootScope.rolePermissions.forEach(function (item, i, arr) {
+                if (item.role_id == role.role_id && $scope.isUnique(item)) $scope.currentEditedUserPermissions.push(item);
+            });
+        });
+    };
+
+    $scope.isUnique = function (item){
+        var found = true;
+        $scope.currentEditedUserPermissions.forEach(function (elem, i, arr) {
+           if (item.permission_id == elem.permission_id) found = false;
+        });
+            return found;
+    };
+
+    $scope.getPermissionName = function (id){
+        var input = $rootScope.permissions;
+        var i=0, len=input.length;
+        for (; i<len; i++) {
+            if (+input[i].id == +id) {
+                return input[i].name;
+            }
+        }
+        return 'Error';
+    };
+
+    $scope.updateUserRoles();
+}]);
+
+mainModule.controller('groupsController', ['$scope', '$rootScope', '$http', '$routeParams', function ($scope, $rootScope, $http, $routeParams) {
+    $scope.groupId = $routeParams.groupId;
+
+    $scope.allGroups = [];
+    $scope.allUsers = [];
+
+    $scope.getUserName = function (id){
+        var input = $rootScope.users;
+        var i=0, len=input.length;
+        for (; i<len; i++) {
+            if (+input[i].id == +id) {
+                return input[i].name;
+            }
+        }
+        return 'Error';
+    };
+
+    $scope.findSubGroups = function (groupId){
+        $rootScope.groups.forEach(function (group, i, arr) {
+            if (group.parent_id == groupId && $scope.isUnique(group)) {
+                $scope.allGroups.push(group);
+                $scope.findSubGroups(group.id);
+            }
+        });
+    };
+
+    $scope.isUnique = function (item){
+        var found = true;
+        $scope.allGroups.forEach(function (elem, i, arr) {
+            if (item.id == elem.id) found = false;
+        });
+        return found;
+    };
+
+    $scope.findUsers = function (){
+        $scope.allUsers = [];
+        $rootScope.userGroups.forEach(function (item, i, arr) {
+            $scope.allGroups.forEach(function (group, i, arr){
+                if (item.group_id == group.id) $scope.allUsers.push(item);
+            })
+        });
+    };
+
+    $scope.getCurrentGroup = function(id) {
+        var input = $rootScope.groups;
+        var i=0, len=input.length;
+        for (; i<len; i++) {
+            if (+input[i].id == +id) {
+                return input[i];
+            }
+        }
+        return {name: 'Error'};
+    };
+
+    $scope.allGroups.push($scope.getCurrentGroup($scope.groupId));
+    $scope.findSubGroups($scope.groupId);
+    $scope.findUsers();
+}]);
 
 mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '$modal', function ($scope, $rootScope, $http, $modal) {
     $scope.search = '';
@@ -62,7 +204,7 @@ mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '
 
     $rootScope.users = [];
     $rootScope.userRoles = [];
-    $rootScope.userGroups = []
+    $rootScope.userGroups = [];
     $scope.updateUserRoles = function () {
         $http({method: 'GET', url: '/appmain/rest/userroles/', headers: {"Content-Type": "application/json"}})
             .success(function (data, status, headers, config) {
@@ -84,9 +226,6 @@ mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '
                             found = false;
                     });
                     if (found && $scope.userRoles.indexOf(item) == -1) $rootScope.userRoles.splice(i, 1);
-                    /*                    if (list.lastIndexOf(item) == -1) {
-                     $rootScope.userRoles.splice($rootScope.userRoles.indexOf(item), 1);
-                     }*/
                 });
             })
             .error(function (data, status, headers, config) {
@@ -100,7 +239,7 @@ mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '
                 //Insert item, if inserted in server
                 list.forEach(function (item, i, arr) {
                     var found = false;
-                    $rootScope.userGroups.forEach(function (role, i, arr) {
+                    $rootScope.userGroups.forEach(function (group, i, arr) {
                         if (item.id == group.id)
                             found = true;
                     });
@@ -127,7 +266,7 @@ mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '
     $scope.update();
 }]);
 
-mainModule.controller('modalController', ['$scope', '$rootScope', '$http', '$modal', function ($scope, $rootScope, $http) {
+mainModule.controller('modalController', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
     $scope.animationsEnabled = true;
 
     //Initialization
@@ -444,7 +583,7 @@ mainModule.controller('rolesListController', ['$scope', '$rootScope', '$http', '
     $scope.update();
 }]);
 
-mainModule.controller('modalRoleController', ['$scope', '$rootScope', '$http', '$modal', function ($scope, $rootScope, $http) {
+mainModule.controller('modalRoleController', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
     $scope.animationsEnabled = true;
 
     $scope.newRoleName = '';
@@ -755,7 +894,7 @@ mainModule.controller('permissionsListController', ['$scope', '$rootScope', '$ht
     $scope.update();
 }]);
 
-mainModule.controller('modalPermissionsController', ['$scope', '$rootScope', '$http', '$modal', function ($scope, $rootScope, $http) {
+mainModule.controller('modalPermissionsController', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
     $scope.animationsEnabled = true;
 
     $scope.newPermissionName = '';
