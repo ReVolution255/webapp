@@ -13,6 +13,7 @@
     <script src="<c:out value="${pageContext.request.contextPath}" />/scripts/ui-bootstrap-tpls-0.13.2.min.js"></script>
     <script src="https://code.angularjs.org/1.4.3/angular-animate.min.js"></script>
     <script charset="utf-8" src="<c:out value="${pageContext.request.contextPath}" />/scripts/common-ng.js"></script>
+    <script charset="utf-8" src="<c:out value="${pageContext.request.contextPath}" />/scripts/modal-controllers.js"></script>
 </head>
 <body>
 <div class="container" ng-app="main">
