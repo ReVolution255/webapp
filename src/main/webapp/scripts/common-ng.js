@@ -185,6 +185,7 @@ mainModule.controller('usersListController', ['$scope', '$rootScope', '$http', '
     };
 
     $scope.open = function () {
+        $rootScope.currentEditedUser = {id: '', name: 'Undefined'};
         $scope.$addModal = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'addUserModal',
@@ -323,9 +324,6 @@ mainModule.controller('modalController', ['$scope', '$rootScope', '$http', funct
                             found = false;
                     });
                     if (found && $scope.userRoles.indexOf(item) == -1) $rootScope.userRoles.splice(i, 1);
-/*                    if (list.lastIndexOf(item) == -1) {
-                        $rootScope.userRoles.splice($rootScope.userRoles.indexOf(item), 1);
-                    }*/
                 });
                 $scope.updateCurrentEditedUserRoles();
                 $scope.updateAllowedUserRoles();
