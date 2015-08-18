@@ -24,6 +24,33 @@
         <div class="modal-body">
             <p>User id is not allowed here. Enter new username:</p>
             <input type="text" placeholder="New username" ng-model="newUserName" value="{{newUserName}}" />
+            <p>User roles:
+                <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="top" popover="Create new" ng-click="addUserRole()" aria-hidden="true"></span>
+                <select class="allowed-roles-list" ng-model="selectedRole">
+                    <option ng-repeat="role in allowedRoles track by role.id" value="{{role.id}}">{{role.name}}</option>
+                </select>
+            </p>
+            <ul class="nav nav-pills nav-stacked list-group">
+                <li class="animation list-group-item" ng-repeat="role in currentEditedUserRoles track by role.id">{{getRoleName(role.role_id)}}
+                    <div class="inline-icon">
+                        <span class="glyphicon glyphicon-remove" ng-click="deleteUserRole(role)" aria-hidden="true"></span>
+                    </div>
+                </li>
+            </ul>
+
+            <p>User groups:
+                <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="top" popover="Create new" ng-click="addUserGroup()" aria-hidden="true"></span>
+                <select class="allowed-roles-list" ng-model="selectedGroup">
+                    <option ng-repeat="group in allowedGroups track by group.id" value="{{group.id}}">{{group.name}}</option>
+                </select>
+            </p>
+            <ul class="nav nav-pills nav-stacked list-group">
+                <li class="animation list-group-item" ng-repeat="group in currentEditedUserGroups track by group.id">{{getGroupName(group.group_id)}}
+                    <div class="inline-icon">
+                        <span class="glyphicon glyphicon-remove" ng-click="deleteUserGroup(group)" aria-hidden="true"></span>
+                    </div>
+                </li>
+            </ul>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="create()">Create</button>
@@ -77,6 +104,19 @@
         <div class="modal-body">
             <p>Role id is not allowed here. Enter new role name:</p>
             <input type="text" placeholder="New role name" ng-model="newRoleName" value="{{newRoleName}}" />
+            <p>Role permissions:
+                <span class="glyphicon glyphicon-plus" data-container="body" popover-trigger="mouseenter" popover-placement="top" popover="Create new" ng-click="addRolePermission()" aria-hidden="true"></span>
+                <select class="allowed-roles-list" ng-model="selectedPermission">
+                    <option ng-repeat="permission in allowedPermissions track by permission.id" value="{{permission.id}}">{{permission.name}}</option>
+                </select>
+            </p>
+            <ul class="nav nav-pills nav-stacked list-group">
+                <li class="animation list-group-item" ng-repeat="permission in currentEditedRolePermissions track by permission.id">{{getPermissionName(permission.permission_id)}}
+                    <div class="inline-icon">
+                        <span class="glyphicon glyphicon-remove" ng-click="deleteRolePermission(permission)" aria-hidden="true"></span>
+                    </div>
+                </li>
+            </ul>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="create()">Create</button>

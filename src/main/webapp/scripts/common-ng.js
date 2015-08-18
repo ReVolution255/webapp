@@ -292,6 +292,7 @@ mainModule.controller('rolesListController', ['$scope', '$rootScope', '$http', '
     };
 
     $scope.addRole = function () {
+        $rootScope.currentEditedRole = {id: '', name: 'Undefined'};
         $scope.$addModal = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'addRoleModal',

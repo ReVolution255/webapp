@@ -33,8 +33,11 @@ mainModule.controller('modalController', ['$scope', '$rootScope', '$http', funct
         return 'Error';
     };
 
+    $scope.mode;
+
     //User roles CRUD: Read
     $scope.updateUserRoles = function () {
+        if ($scope.mode == 1) {
         $http({method: 'GET', url: '/appmain/rest/userroles/', headers: {"Content-Type": "application/json"}})
             .success(function (data, status, headers, config) {
                 var list = angular.fromJson(data);
@@ -62,17 +65,19 @@ mainModule.controller('modalController', ['$scope', '$rootScope', '$http', funct
             .error(function (data, status, headers, config) {
                 console.log(status);
             });
+        } else {
+            $scope.allowedRoles = $rootScope.roles;
+        }
     };
     $scope.updateAllowedUserRoles = function () {
         $scope.allowedRoles = [];
-
-        $rootScope.roles.forEach(function (item, i, arr) {
-            var found = false;
-            $scope.currentEditedUserRoles.forEach(function(role, i, arr){
-                if (item.id == role.role_id) found = true;
+            $rootScope.roles.forEach(function (item, i, arr) {
+                var found = false;
+                $scope.currentEditedUserRoles.forEach(function(role, i, arr){
+                    if (item.id == role.role_id) found = true;
+                });
+                if (!found && $scope.allowedRoles.indexOf(item) == -1) $scope.allowedRoles.push(item);
             });
-            if (!found && $scope.allowedRoles.indexOf(item) == -1) $scope.allowedRoles.push(item);
-        });
     };
     $scope.updateCurrentEditedUserRoles = function () {
         $scope.currentEditedUserRoles = [];
@@ -83,14 +88,24 @@ mainModule.controller('modalController', ['$scope', '$rootScope', '$http', funct
     //User roles CRUD: Delete
     $scope.deleteUserRole = function (role) {
         var id = role.id;
-        $http({method: 'DELETE', headers: {"Content-Type": "application/json"}, url: '/appmain/rest/userroles/', data: {id: id}}).success(function (data, status, headers, config) {
+        if ($scope.mode == 1) {
+            $http({
+                method: 'DELETE',
+                headers: {"Content-Type": "application/json"},
+                url: '/appmain/rest/userroles/',
+                data: {id: id}
+            }).success(function (data, status, headers, config) {
+                $scope.currentEditedUserRoles.splice($scope.currentEditedUserRoles.indexOf(role), 1);
+                $rootScope.userRoles.splice($scope.userRoles.indexOf(role), 1);
+                $scope.updateAllowedUserRoles();
+            }).
+                error(function (data, status, headers, config) {
+                    console.log(status);
+                });
+        } else {
             $scope.currentEditedUserRoles.splice($scope.currentEditedUserRoles.indexOf(role), 1);
-            $rootScope.userRoles.splice($scope.userRoles.indexOf(role), 1);
             $scope.updateAllowedUserRoles();
-        }).
-            error(function (data, status, headers, config) {
-                console.log(status);
-            });
+        }
     };
     //User roles CRUD: Create
     $scope.addUserRole = function () {
@@ -98,43 +113,58 @@ mainModule.controller('modalController', ['$scope', '$rootScope', '$http', funct
         var user_id = $scope.currentEditedUser.id;
         var temp = {role_id: role_id,
             user_id: user_id};
-        $http({method: 'POST', url: '/appmain/rest/userroles/', headers: {"Content-Type": "application/json"}, data: angular.toJson(temp)}).success(function (data, status, headers, config) {
-            $scope.updateUserRoles();
-        }).
-            error(function (data, status, headers, config) {
-                console.log(status);
-            });
+        if ($scope.mode == 1) {
+            $http({
+                method: 'POST',
+                url: '/appmain/rest/userroles/',
+                headers: {"Content-Type": "application/json"},
+                data: angular.toJson(temp)
+            }).success(function (data, status, headers, config) {
+                $scope.updateUserRoles();
+            }).
+                error(function (data, status, headers, config) {
+                    console.log(status);
+                });
+        } else {
+            temp.id = $scope.r_ids++;
+            $scope.currentEditedUserRoles.push(temp);
+            $scope.updateAllowedUserRoles();
+        }
     };
 
     //User groups CRUD: Read
     $scope.updateUserGroups = function () {
-        $http({method: 'GET', url: '/appmain/rest/usergroups/', headers: {"Content-Type": "application/json"}})
-            .success(function (data, status, headers, config) {
-                var list = angular.fromJson(data);
-                //Insert item, if inserted in server
-                list.forEach(function (item, i, arr) {
-                    var found = false;
-                    $rootScope.userGroups.forEach(function (group, i, arr) {
-                        if (item.id == group.id)
-                            found = true;
+        if ($scope.mode == 1) {
+            $http({method: 'GET', url: '/appmain/rest/usergroups/', headers: {"Content-Type": "application/json"}})
+                .success(function (data, status, headers, config) {
+                    var list = angular.fromJson(data);
+                    //Insert item, if inserted in server
+                    list.forEach(function (item, i, arr) {
+                        var found = false;
+                        $rootScope.userGroups.forEach(function (group, i, arr) {
+                            if (item.id == group.id)
+                                found = true;
+                        });
+                        if (!found && $scope.userGroups.indexOf(item) == -1) $rootScope.userGroups.push(item);
                     });
-                    if (!found && $scope.userGroups.indexOf(item) == -1) $rootScope.userGroups.push(item);
-                });
-                //Delete item, if deleted from server
-                $rootScope.userGroups.forEach(function(item, i, arr) {
-                    var found = true;
-                    list.forEach(function (group, i, arr) {
-                        if (item.id == group.id)
-                            found = false;
+                    //Delete item, if deleted from server
+                    $rootScope.userGroups.forEach(function (item, i, arr) {
+                        var found = true;
+                        list.forEach(function (group, i, arr) {
+                            if (item.id == group.id)
+                                found = false;
+                        });
+                        if (found && $scope.userGroups.indexOf(item) == -1) $rootScope.userGroups.splice(i, 1);
                     });
-                    if (found && $scope.userGroups.indexOf(item) == -1) $rootScope.userGroups.splice(i, 1);
+                    $scope.updateCurrentEditedUserGroups();
+                    $scope.updateAllowedUserGroups();
+                })
+                .error(function (data, status, headers, config) {
+                    console.log(status);
                 });
-                $scope.updateCurrentEditedUserGroups();
-                $scope.updateAllowedUserGroups();
-            })
-            .error(function (data, status, headers, config) {
-                console.log(status);
-            });
+        } else {
+            $scope.allowedGroups = $rootScope.groups;
+        }
     };
     $scope.updateAllowedUserGroups = function () {
         $scope.allowedGroups = [];
@@ -156,6 +186,7 @@ mainModule.controller('modalController', ['$scope', '$rootScope', '$http', funct
     //User groups CRUD: Delete
     $scope.deleteUserGroup = function (group) {
         var id = group.id;
+        if ($scope.mode == 1) {
         $http({method: 'DELETE', headers: {"Content-Type": "application/json"}, url: '/appmain/rest/usergroups/', data: {id: id}}).success(function (data, status, headers, config) {
             $scope.currentEditedUserGroups.splice($scope.currentEditedUserGroups.indexOf(group), 1);
             $rootScope.userGroups.splice($scope.userGroups.indexOf(group), 1);
@@ -164,6 +195,10 @@ mainModule.controller('modalController', ['$scope', '$rootScope', '$http', funct
             error(function (data, status, headers, config) {
                 console.log(status);
             });
+        } else {
+            $scope.currentEditedUserGroups.splice($scope.currentEditedUserGroups.indexOf(group), 1);
+            $scope.updateAllowedUserGroups();
+        }
     };
     //User groups CRUD: Create
     $scope.addUserGroup = function () {
@@ -171,12 +206,18 @@ mainModule.controller('modalController', ['$scope', '$rootScope', '$http', funct
         var user_id = $scope.currentEditedUser.id;
         var temp = {group_id: group_id,
             user_id: user_id};
+        if ($scope.mode == 1) {
         $http({method: 'POST', url: '/appmain/rest/usergroups/', headers: {"Content-Type": "application/json"}, data: angular.toJson(temp)}).success(function (data, status, headers, config) {
             $scope.updateUserGroups();
         }).
             error(function (data, status, headers, config) {
                 console.log(status);
             });
+        } else {
+            temp.id = $scope.g_ids++;
+            $scope.currentEditedUserGroups.push(temp);
+            $scope.updateAllowedUserGroups();
+        }
     };
 
     //CRUD: Update
@@ -203,6 +244,16 @@ mainModule.controller('modalController', ['$scope', '$rootScope', '$http', funct
                 }
             }
             $rootScope.users.push(user);
+            $scope.mode = 1;
+            $scope.currentEditedUser.id = user.id;
+            $scope.currentEditedUserRoles.forEach(function (item, i, arr) {
+                $scope.selectedRole = item.role_id;
+                $scope.addUserRole();
+            });
+            $scope.currentEditedUserGroups.forEach(function (item, i, arr) {
+                $scope.selectedGroup = item.group_id;
+                $scope.addUserGroup();
+            });
         }).
             error(function (data, status, headers, config) {
                 console.log(status);
@@ -231,6 +282,14 @@ mainModule.controller('modalController', ['$scope', '$rootScope', '$http', funct
             });
     };
 
+    $scope.setMode = function () {
+        //0 - new, 1 - edit
+        if ($rootScope.currentEditedUser.id == '') {$scope.mode = 0;
+        $scope.r_ids = 0; $scope.g_ids = 0;}
+        else $scope.mode = 1;
+    };
+
+    $scope.setMode();
     $scope.updateUserRoles();
     $scope.updateUserGroups();
 }]);
@@ -254,39 +313,44 @@ mainModule.controller('modalRoleController', ['$scope', '$rootScope', '$http', f
         return 'Error';
     };
 
+    $scope.mode;
+
     //Role permissions CRUD: Read
     $scope.updateRolePermissions = function () {
-        $http({method: 'GET', url: '/appmain/rest/rolepermissions/', headers: {"Content-Type": "application/json"}})
-            .success(function (data, status, headers, config) {
-                var list = angular.fromJson(data);
-                //Insert item, if inserted in server
-                list.forEach(function (item, i, arr) {
-                    var found = false;
-                    $rootScope.rolePermissions.forEach(function (permission, i, arr) {
-                        if (item.id == permission.id)
-                            found = true;
+        if ($scope.mode == 1) {
+            $http({method: 'GET', url: '/appmain/rest/rolepermissions/', headers: {"Content-Type": "application/json"}})
+                .success(function (data, status, headers, config) {
+                    var list = angular.fromJson(data);
+                    //Insert item, if inserted in server
+                    list.forEach(function (item, i, arr) {
+                        var found = false;
+                        $rootScope.rolePermissions.forEach(function (permission, i, arr) {
+                            if (item.id == permission.id)
+                                found = true;
+                        });
+                        if (!found && $scope.rolePermissions.indexOf(item) == -1) $rootScope.rolePermissions.push(item);
                     });
-                    if (!found && $scope.rolePermissions.indexOf(item) == -1) $rootScope.rolePermissions.push(item);
-                });
-                //Delete item, if deleted from server
-                $rootScope.rolePermissions.forEach(function(item, i, arr) {
-                    var found = true;
-                    list.forEach(function (permission, i, arr) {
-                        if (item.id == permission.id)
-                            found = false;
+                    //Delete item, if deleted from server
+                    $rootScope.rolePermissions.forEach(function (item, i, arr) {
+                        var found = true;
+                        list.forEach(function (permission, i, arr) {
+                            if (item.id == permission.id)
+                                found = false;
+                        });
+                        if (found && $scope.rolePermissions.indexOf(item) == -1) $rootScope.rolePermissions.splice(i, 1);
                     });
-                    if (found && $scope.rolePermissions.indexOf(item) == -1) $rootScope.rolePermissions.splice(i, 1);
+                    $scope.updateCurrentEditedRolePermissions();
+                    $scope.updateAllowedRolePermissions();
+                })
+                .error(function (data, status, headers, config) {
+                    console.log(status);
                 });
-                $scope.updateCurrentEditedRolePermissions();
-                $scope.updateAllowedRolePermissions();
-            })
-            .error(function (data, status, headers, config) {
-                console.log(status);
-            });
+        } else {
+            $scope.allowedPermissions = $rootScope.permissions;
+        }
     };
     $scope.updateAllowedRolePermissions = function () {
         $scope.allowedPermissions = [];
-
         $rootScope.permissions.forEach(function (item, i, arr) {
             var found = false;
             $scope.currentEditedRolePermissions.forEach(function(permission, i, arr){
@@ -304,14 +368,24 @@ mainModule.controller('modalRoleController', ['$scope', '$rootScope', '$http', f
     //Role permissions CRUD: Delete
     $scope.deleteRolePermission = function (permission) {
         var id = permission.id;
-        $http({method: 'DELETE', headers: {"Content-Type": "application/json"}, url: '/appmain/rest/rolepermissions/', data: {id: id}}).success(function (data, status, headers, config) {
+        if ($scope.mode == 1) {
+            $http({
+                method: 'DELETE',
+                headers: {"Content-Type": "application/json"},
+                url: '/appmain/rest/rolepermissions/',
+                data: {id: id}
+            }).success(function (data, status, headers, config) {
+                $scope.currentEditedRolePermissions.splice($scope.currentEditedRolePermissions.indexOf(permission), 1);
+                $rootScope.rolePermissions.splice($scope.rolePermissions.indexOf(permission), 1);
+                $scope.updateAllowedRolePermissions();
+            }).
+                error(function (data, status, headers, config) {
+                    console.log(status);
+                });
+        } else {
             $scope.currentEditedRolePermissions.splice($scope.currentEditedRolePermissions.indexOf(permission), 1);
-            $rootScope.rolePermissions.splice($scope.rolePermissions.indexOf(permission), 1);
             $scope.updateAllowedRolePermissions();
-        }).
-            error(function (data, status, headers, config) {
-                console.log(status);
-            });
+        }
     };
     //Role permissions CRUD: Create
     $scope.addRolePermission = function () {
@@ -319,12 +393,23 @@ mainModule.controller('modalRoleController', ['$scope', '$rootScope', '$http', f
         var role_id = $scope.currentEditedRole.id;
         var temp = {role_id: role_id,
             permission_id: permission_id};
-        $http({method: 'POST', url: '/appmain/rest/rolepermissions/', headers: {"Content-Type": "application/json"}, data: angular.toJson(temp)}).success(function (data, status, headers, config) {
-            $scope.updateRolePermissions();
-        }).
-            error(function (data, status, headers, config) {
-                console.log(status);
-            });
+        if ($scope.mode == 1) {
+            $http({
+                method: 'POST',
+                url: '/appmain/rest/rolepermissions/',
+                headers: {"Content-Type": "application/json"},
+                data: angular.toJson(temp)
+            }).success(function (data, status, headers, config) {
+                $scope.updateRolePermissions();
+            }).
+                error(function (data, status, headers, config) {
+                    console.log(status);
+                });
+        } else {
+            temp.id = $scope.ids++;
+            $scope.currentEditedRolePermissions.push(temp);
+            $scope.updateAllowedRolePermissions();
+        }
     };
 
     //CRUD: Update
@@ -351,6 +436,12 @@ mainModule.controller('modalRoleController', ['$scope', '$rootScope', '$http', f
                 }
             }
             $rootScope.roles.push(role);
+            $scope.mode = 1;
+            $scope.currentEditedRole.id = role.id;
+            $scope.currentEditedRolePermissions.forEach(function (item, i, arr) {
+                $scope.selectedPermission = item.permission_id;
+                $scope.addRolePermission();
+            });
         }).
             error(function (data, status, headers, config) {
                 console.log(status);
@@ -379,6 +470,13 @@ mainModule.controller('modalRoleController', ['$scope', '$rootScope', '$http', f
             });
     };
 
+    $scope.setMode = function () {
+        //0 - new, 1 - edit
+        if ($scope.currentEditedRole.id == '') {$scope.mode = 0; $scope.ids = 0;}
+        else $scope.mode = 1;
+    };
+
+    $scope.setMode();
     $scope.updateRolePermissions();
 }]);
 
