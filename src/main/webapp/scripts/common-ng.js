@@ -30,132 +30,52 @@ mainModule.filter('getById', function() {
         }
         return null;
     }
+})
+
+mainModule.filter('unique', function() {
+    return function(collection, keyname) {
+        var output = [],
+            keys = [];
+
+        angular.forEach(collection, function(item) {
+            var key = item[keyname];
+            if(keys.indexOf(key) === -1) {
+                keys.push(key);
+                output.push(item);
+            }
+        });
+
+        return output;
+    };
 });
 
 mainModule.controller('userPermissionsController', ['$scope', '$rootScope', '$http', '$routeParams', function ($scope, $rootScope, $http, $routeParams) {
     $scope.userId = $routeParams.userId;
     $scope.currentEditedUserPermissions = [];
-    $scope.updateUserRoles = function () {
-        $http({method: 'GET', url: '/appmain/rest/userroles/', headers: {"Content-Type": "application/json"}})
+    $scope.updateUserPermissions = function () {
+        $http({method: 'GET', url: '/appmain/rest/report/userpermissions/' + $scope.userId, headers: {"Content-Type": "application/json"}})
             .success(function (data, status, headers, config) {
-                var list = angular.fromJson(data);
-                //Insert item, if inserted in server
-                list.forEach(function (item, i, arr) {
-                    var found = false;
-                    $rootScope.userRoles.forEach(function (role, i, arr) {
-                        if (item.id == role.id)
-                            found = true;
-                    });
-                    if (!found && $scope.userRoles.indexOf(item) == -1) $rootScope.userRoles.push(item);
-                });
-                //Delete item, if deleted from server
-                $rootScope.userRoles.forEach(function(item, i, arr) {
-                    var found = true;
-                    list.forEach(function (role, i, arr) {
-                        if (item.id == role.id)
-                            found = false;
-                    });
-                    if (found && $scope.userRoles.indexOf(item) == -1) $rootScope.userRoles.splice(i, 1);
-                });
-                $scope.updateCurrentEditedUserRoles();
+                $scope.currentEditedUserPermissions = angular.fromJson(data);
             })
             .error(function (data, status, headers, config) {
                 console.log(status);
             });
     };
-    $scope.updateCurrentEditedUserRoles = function () {
-        $scope.currentEditedUserRoles = [];
-        $rootScope.userRoles.forEach(function (item, i, arr) {
-            if (item.user_id == $scope.userId) $scope.currentEditedUserRoles.push(item);
-        });
-        $scope.updateUserPermissions();
-    };
-    $scope.updateUserPermissions = function (){
-        $scope.currentEditedUserRoles.forEach(function (role, i, arr){
-            $rootScope.rolePermissions.forEach(function (item, i, arr) {
-                if (item.role_id == role.role_id && $scope.isUnique(item)) $scope.currentEditedUserPermissions.push(item);
-            });
-        });
-    };
-
-    $scope.isUnique = function (item){
-        var found = true;
-        $scope.currentEditedUserPermissions.forEach(function (elem, i, arr) {
-           if (item.permission_id == elem.permission_id) found = false;
-        });
-            return found;
-    };
-
-    $scope.getPermissionName = function (id){
-        var input = $rootScope.permissions;
-        var i=0, len=input.length;
-        for (; i<len; i++) {
-            if (+input[i].id == +id) {
-                return input[i].name;
-            }
-        }
-        return 'Error';
-    };
-
-    $scope.updateUserRoles();
+    $scope.updateUserPermissions();
 }]);
 
 mainModule.controller('groupsController', ['$scope', '$rootScope', '$http', '$routeParams', function ($scope, $rootScope, $http, $routeParams) {
     $scope.groupId = $routeParams.groupId;
-
-    $scope.allGroups = [];
     $scope.allUsers = [];
-
-    $scope.getUserName = function (id){
-        var input = $rootScope.users;
-        var i=0, len=input.length;
-        for (; i<len; i++) {
-            if (+input[i].id == +id) {
-                return input[i].name;
-            }
-        }
-        return 'Error';
-    };
-
-    $scope.findSubGroups = function (groupId){
-        $rootScope.groups.forEach(function (group, i, arr) {
-            if (group.parent_id == groupId && $scope.isUnique(group)) {
-                $scope.allGroups.push(group);
-                $scope.findSubGroups(group.id);
-            }
-        });
-    };
-
-    $scope.isUnique = function (item){
-        var found = true;
-        $scope.allGroups.forEach(function (elem, i, arr) {
-            if (item.id == elem.id) found = false;
-        });
-        return found;
-    };
-
     $scope.findUsers = function (){
-        $scope.allUsers = [];
-        $rootScope.userGroups.forEach(function (item, i, arr) {
-            $scope.allGroups.forEach(function (group, i, arr){
-                if (item.group_id == group.id) $scope.allUsers.push(item);
+        $http({method: 'GET', url: '/appmain/rest/report/groupusers/' + $scope.groupId, headers: {"Content-Type": "application/json"}})
+            .success(function (data, status, headers, config) {
+                $scope.allUsers = angular.fromJson(data);
             })
-        });
+            .error(function (data, status, headers, config) {
+                console.log(status);
+            });
     };
-
-    $scope.getCurrentGroup = function(id) {
-        var input = $rootScope.groups;
-        var i=0, len=input.length;
-        for (; i<len; i++) {
-            if (+input[i].id == +id) {
-                return input[i];
-            }
-        }
-        return {name: 'Error'};
-    };
-
-    $scope.allGroups.push($scope.getCurrentGroup($scope.groupId));
-    $scope.findSubGroups($scope.groupId);
     $scope.findUsers();
 }]);
 

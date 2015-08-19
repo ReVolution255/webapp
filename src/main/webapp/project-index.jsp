@@ -314,7 +314,7 @@
         <div>
             <p>Permissions. User id: {{userId}}</p>
             <ul class="nav nav-pills nav-stacked list-group">
-                <li class="animation list-group-item" ng-repeat="permission in currentEditedUserPermissions track by permission.id">{{getPermissionName(permission.permission_id)}}
+                <li class="animation list-group-item" ng-repeat="permission in currentEditedUserPermissions | unique: 'id'">{{permission.name}}
                 </li>
             </ul>
         </div>
@@ -323,7 +323,7 @@
         <div>
             <p>Users in group. Group id: {{groupId}}</p>
             <ul class="nav nav-pills nav-stacked list-group">
-                <li class="animation list-group-item" ng-repeat="user in allUsers track by user.id">{{getUserName(user.user_id)}}
+                <li class="animation list-group-item" ng-repeat="user in allUsers | unique: 'id'">{{user.name}}
                 </li>
             </ul>
         </div>
