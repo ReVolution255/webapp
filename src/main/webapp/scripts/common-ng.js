@@ -269,11 +269,35 @@ mainModule.controller('groupsListController', ['$scope', '$rootScope', '$http', 
     $scope.search = '';
     $scope.animationsEnabled = true;
 
+    $scope.allGroups = [];
+
+    $scope.findSubGroups = function (groupId){
+        $rootScope.groups.forEach(function (group, i, arr) {
+            if (group.parent_id == groupId && $scope.isUnique(group)) {
+                $scope.allGroups.push(group);
+                $scope.findSubGroups(group.id);
+            }
+        });
+    };
+
+    $scope.isUnique = function (item){
+        var found = true;
+        $scope.allGroups.forEach(function (elem, i, arr) {
+            if (item.id == elem.id) found = false;
+        });
+        return found;
+    };
+
     //CRUD: Delete
     $scope.delete = function (group) {
         var id = group.id;
         $http({method: 'DELETE', headers: {"Content-Type": "application/json"}, url: '/appmain/rest/groups/', data: {id: id}}).success(function (data, status, headers, config) {
             $rootScope.groups.splice($rootScope.groups.indexOf(group), 1);
+            $scope.findSubGroups(group.id);
+            $scope.allGroups.forEach(function (item) {
+                $rootScope.groups.splice($rootScope.groups.indexOf(item), 1);
+            });
+            $scope.allGroups = [];
         }).
             error(function (data, status, headers, config) {
                 console.log(status);
