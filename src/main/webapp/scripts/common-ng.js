@@ -30,7 +30,7 @@ mainModule.filter('getById', function() {
         }
         return null;
     }
-})
+});
 
 mainModule.filter('unique', function() {
     return function(collection, keyname) {
